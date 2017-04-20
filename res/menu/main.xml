@@ -1,0 +1,29 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" 
+    android:background="@drawable/ab_solid_light">
+
+    <!--  ifRoom 会显示在Item中，但是如果已经有4个或者4个以上的Item时会隐藏在溢出列表中。当然个
+			数并不仅仅局限于4个，依据屏幕的宽窄而定     
+		  collapseActionView声明了这个操作视窗应该被折叠到一个按钮中，当用户选择这个按钮时，这个操作视窗展开。否则，
+			这个操作视窗在默认的情况下是可见的，并且即便在用于不适用的时候，也要占据操作栏的有效空间。
+			一般要配合ifRoom一起使用才会有效果。 
+
+		     于actionProviderClass属性用来指定一个构建视窗所使用的布局资源 -->
+
+    <item
+        android:id="@+id/action_group_modify_base_info"
+        android:icon="@drawable/ofm_group_modify_base_info"
+        android:title="@string/action_modify_base_info"/>
+    <item
+        android:id="@+id/action_modify_password"
+        android:icon="@drawable/ofm_group_modify_password"
+        android:title="@string/action_modify_password"/>
+    <item
+        android:id="@+id/action_wait_in"
+        android:icon="@drawable/ofm_qrcode_icon"
+        android:title="@string/action_wait_in"/>
+    <item
+        android:id="@+id/action_logout"
+        android:icon="@drawable/ofm_group_logout"
+        android:title="@string/action_logout"/>
+
+</menu>

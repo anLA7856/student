@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#EDE4D6"
+    android:orientation="vertical"
+    android:padding="3dp" >
+
+    <LinearLayout
+        android:id="@+id/linearMylistAll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:id="@+id/itemTeacherPic"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/default_users_avatar" />
+
+        <LinearLayout
+            android:id="@+id/linearMylistString"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/itemTeacherNum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:singleLine="true"
+                android:text="teacherNum"
+                android:textColor="#815F3D"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/itemCourseName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:singleLine="true"
+                android:text="courseName"
+                android:textColor="#815F3D"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/itemTeacherName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:singleLine="true"
+                android:text="TeacherName"
+                android:textColor="#815F3D"
+                android:textSize="15sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#FFFFFF" >
+    </LinearLayout>
+
+</LinearLayout>

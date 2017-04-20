@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#EDE4D6"
+    android:padding="3dp" 
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/linearMySignlistAll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/itemSignDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:singleLine="true"
+            android:text="2016年5月1日"
+            android:textColor="#815F3D"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/itemSignCourseName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:singleLine="true"
+            android:text="高数上册"
+            android:textColor="#815F3D"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/itemSignCourseNum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:singleLine="true"
+            android:text="9008"
+            android:textColor="#815F3D"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/itemSignTeacherName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:singleLine="true"
+            android:text="王老师"
+            android:textColor="#815F3D"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#FFFFFF" >
+    </LinearLayout>
+
+</LinearLayout>

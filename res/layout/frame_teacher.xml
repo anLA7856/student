@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#EDE4D6"
+    android:orientation="vertical"
+    android:paddingBottom="0dp"
+    android:paddingTop="0dp" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/top_bar_bg"
+        android:paddingBottom="0dp"
+        android:paddingTop="0dp" >
+
+        <ImageView
+            android:id="@+id/Menu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:paddingBottom="5dp"
+            android:paddingLeft="15dp"
+            android:paddingTop="5dp"
+            android:src="@drawable/side_icon" />
+
+        
+
+        <TextView
+            android:id="@+id/TopMenuOne"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:text="我的教师"
+            android:textColor="#FFFFFF"
+            android:textSize="19sp" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/load_progressBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingTop="10dp" >
+
+        <ProgressBar
+            style="@style/myProgressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="visible" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:text="拼命加载中..."
+            android:textColor="#815F3D"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/HomeNoValue"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="10dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="10dp"
+        android:text="暂无课程喔"
+        android:textColor="#815F3D"
+        android:textSize="18sp"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/HomeGroup"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#EDE4D6"
+        android:orientation="vertical"
+        android:visibility="gone" >
+
+        <csust.student.refresh.PullToRefreshLayout
+            android:id="@+id/refresh_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <include layout="@layout/refresh_head" />
+            <!-- 支持所有实现Pullable接口的View -->
+
+            <csust.student.refresh.view.PullableListView
+                android:id="@+id/content_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:divider="@color/gray"
+                android:dividerHeight="1dp" />
+
+            <include layout="@layout/load_more" />
+        </csust.student.refresh.PullToRefreshLayout>
+    </LinearLayout>
+
+</LinearLayout>
