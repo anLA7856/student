@@ -3,17 +3,18 @@ package csust.student.model;
 import android.os.Environment;
 import csust.student.info.UserInfo;
 
-
-
 public class Model {
 
 	public static int INIT_COUNT = 15;
-	
-	
-	public static String HTTPURL = "http://10.129.92.21:8989/Sign1.1/";
 
-//	public static String HTTPURL = "http://115.29.50.213:8989/Sign1.1/";
-	public static String LOCALSTORAGE = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath()+"/sign/";
+	public static String BASEHTTPURL = "http://10.129.92.21:8989";
+	public static String HTTPURL = BASEHTTPURL + "/Sign1.1/";
+
+	public static String BASELOCATION = Environment
+			.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
+			.getAbsolutePath();
+	public static String LOCALSTORAGE = BASELOCATION + "/sign/";
+	public static String REPORTDATALOCATION = LOCALSTORAGE + "download/";
 	public static String UPLOADPIC = "stuUploadPic";
 	public static String UPLOADSIGNINFO = "uploadSignInfo?";
 	public static String GETNOTSIGNINFO = "getNotSignInfo?";
@@ -29,10 +30,10 @@ public class Model {
 	public static String STUMODIFYPASSWORD = "stuModifyPassword?";
 	public static String STUDELETECOURSE = "stuDeleteCourse?";
 
-	//用于加载图片的。
-	public static String USERHEADURL = "http://115.29.50.213:8989/Sign1.1/stuPic/";
+	// 用于加载图片的。
+	public static String USERHEADURL = BASEHTTPURL + "/Sign1.1/stuPic/";
 
-//	public static String USERHEADURL = "http://192.168.191.1:8989/Sign1.1/stuPic/";
+	public static String USERREPORTURL = BASEHTTPURL + "/Sign1.1/xls/";
 
 	public static boolean IMGFLAG = false;
 	public static UserInfo MYUSERINFO = null;

@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import csust.student.activity.ChatActivity;
 import csust.student.activity.CourseDetailActivity;
 import csust.student.activity.R;
 import csust.student.adapter.MyTeacherListAdapter;
@@ -140,9 +141,15 @@ public class TeacherFragment extends Fragment implements OnClickListener {
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id)
 			{
-				Toast.makeText(ctx,
-						" Click on " + parent.getAdapter().getItemId(position),
-						Toast.LENGTH_SHORT).show();
+				//在这里将聊天界面加进去。
+				Intent intent = new Intent(ctx, ChatActivity.class);
+				Bundle bund = new Bundle();
+				bund.putSerializable("teacherId", list.get(position).getTeacher_id());
+
+				// 这句暂时不嫩共。
+				intent.putExtra("value", bund);
+				startActivity(intent);
+				
 			}
 		});
 

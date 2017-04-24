@@ -29,6 +29,7 @@ import csust.student.adapter.MessageAdapter;
 import csust.student.database.MessageDB;
 import csust.student.database.RecentDB;
 import csust.student.database.UserDB;
+import csust.student.info.CourseInfo;
 import csust.student.info.MessageItem;
 import csust.student.info.RecentItem;
 import csust.student.myview.MsgListView;
@@ -55,7 +56,6 @@ public class ChatActivity extends Activity implements OnClickListener, OnTouchLi
 	private static final int POLL_INTERVAL = 300;
 	private static final int CAMERA_WITH_DATA = 10;
 
-	private SharePreferenceUtil mSpUtil;
 	public static String DEFAULT_ID = "1100877319654414526";
 	public static String defaulgUserName = "在飞";
 	public static String defaulgIcon = "4";
@@ -65,7 +65,7 @@ public class ChatActivity extends Activity implements OnClickListener, OnTouchLi
 	private InputMethodManager mInputMethodManager;
 	private EditText mEtMsg;
 
-	//private PushApplication mApplication;
+	private SignStudentApp mApplication;
 
 	private Button mBtnSend;// 发送消息按钮
 	private static MessageAdapter adapter;// 发送消息展示的adapter
@@ -80,6 +80,9 @@ public class ChatActivity extends Activity implements OnClickListener, OnTouchLi
 	// 接受数据
 	private UserDB mUserDB;
 //	private SendMsgAsyncTask mSendTask;
+	
+	//用于接收上个界面传来的teacherid
+	private String teacherId;
 
 	/**
 	 * 接收到数据，用来更新listView
@@ -91,7 +94,7 @@ public class ChatActivity extends Activity implements OnClickListener, OnTouchLi
 				// String message = (String) msg.obj;
 				csust.student.info.Message msgItem = (csust.student.info.Message) msg.obj;
 				String userId = msgItem.getUser_id();
-				if (!userId.equals(mSpUtil.getUserId()))// 如果不是当前正在聊天对象的消息，不处理
+				if (!userId.equals(teacherId))// 如果不是当前正在聊天对象的消息，不处理
 					return;
 
 				int headId = msgItem.getHead_id();
@@ -137,7 +140,7 @@ public class ChatActivity extends Activity implements OnClickListener, OnTouchLi
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.chat_main);
-
+		mApplication = SignStudentApp.getInstance();
 		mParams = getWindow().getAttributes();
 
 		mInputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
@@ -160,6 +163,12 @@ public class ChatActivity extends Activity implements OnClickListener, OnTouchLi
 		// 设置表情翻页效果
 		// mSpUtil.setFaceEffect(8);
 
+		
+		Intent intent = this.getIntent();
+		// 必须要这个才能，获得名字value
+		Bundle bundle = intent.getBundleExtra("value");
+
+		teacherId = bundle.getSerializable("teacherId").toString();
 		initUserInfo();
 
 	}
@@ -184,8 +193,8 @@ public class ChatActivity extends Activity implements OnClickListener, OnTouchLi
 
 		// 消息
 //		mApplication = PushApplication.getInstance();
-//		mMsgDB = mApplication.getMessageDB();// 发送数据库
-//		mRecentDB = mApplication.getRecentDB();// 接收消息数据库
+		mMsgDB = mApplication.getMessageDB();// 发送数据库
+		mRecentDB = mApplication.getRecentDB();// 接收消息数据库
 //		mGson = mApplication.getGson();
 
 		adapter = new MessageAdapter(this, initMsgData());
@@ -277,7 +286,7 @@ public class ChatActivity extends Activity implements OnClickListener, OnTouchLi
 	 */
 	private List<MessageItem> initMsgData() {
 		List<MessageItem> list = mMsgDB
-				.getMsg(mSpUtil.getUserId(), MSGPAGERNUM);
+				.getMsg(teacherId, MSGPAGERNUM);
 		List<MessageItem> msgList = new ArrayList<MessageItem>();// 消息对象数组
 		if (list.size() > 0) {
 			for (MessageItem entity : list) {
@@ -302,17 +311,17 @@ public class ChatActivity extends Activity implements OnClickListener, OnTouchLi
 			// 发送消息
 			String msg = mEtMsg.getText().toString();
 			MessageItem item = new MessageItem(MessageItem.MESSAGE_TYPE_TEXT,
-					mSpUtil.getNick(), System.currentTimeMillis(), msg,
-					mSpUtil.getHeadIcon(), false, 0, 0);
+					"zhangsan1", System.currentTimeMillis(), msg,
+					0, false, 0, 0);
 			adapter.upDateMsg(item);
 			mMsgListView.setSelection(adapter.getCount() - 1);
-			mMsgDB.saveMsg(mSpUtil.getUserId(), item);// 消息保存数据库
+			mMsgDB.saveMsg(teacherId, item);// 消息保存数据库
 			mEtMsg.setText("");
 			// ===发送消息到服务器
 			csust.student.info.Message msgItem = new csust.student.info.Message(
 					MessageItem.MESSAGE_TYPE_TEXT, System.currentTimeMillis(),
 					msg, "", 0);
-			if ("".equals(mSpUtil.getUserId())) {
+			if ("".equals(teacherId)) {
 				T.show(ChatActivity.this,
 						"百度push id为空，不能发送消息,请到百度开发者官网生成新的push key，替换", 1);
 				return;
@@ -322,7 +331,7 @@ public class ChatActivity extends Activity implements OnClickListener, OnTouchLi
 			// ===保存近期的消息
 
 			RecentItem recentItem = new RecentItem(
-					MessageItem.MESSAGE_TYPE_TEXT, mSpUtil.getUserId(),
+					MessageItem.MESSAGE_TYPE_TEXT, teacherId,
 					defaultCount, defaulgUserName, msg, 0,
 					System.currentTimeMillis(), 0);
 			mRecentDB.saveRecent(recentItem);
@@ -440,7 +449,7 @@ public class ChatActivity extends Activity implements OnClickListener, OnTouchLi
 
 	@Override
 	public void onHomePressed() {
-		//mApplication.showNotification();
+		mApplication.showNotification();
 	}
 
 	@Override

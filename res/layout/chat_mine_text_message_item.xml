@@ -85,7 +85,7 @@
             android:clickable="true"
             android:minHeight="44.0dip" >
 
-            <com.pzf.liaotian.view.GifTextView
+            <csust.student.myview.GifTextView
                 android:id="@+id/textView2"
                 style="@style/B5_Font"
                 android:layout_width="wrap_content"

@@ -38,7 +38,7 @@
 
     <application
         android:allowBackup="true"
-        android:name="SpeechApp"
+        android:name="SignStudentApp"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
@@ -59,6 +59,8 @@
         <activity android:name="csust.student.activity.AddCourseActivity" >
         </activity>
         <activity android:name="csust.student.activity.LoginActivity" >
+        </activity>
+        <activity android:name="csust.student.activity.ChatActivity" >
         </activity>
         <activity android:name="csust.student.activity.CourseDetailActivity" >
         </activity>
