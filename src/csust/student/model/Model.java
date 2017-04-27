@@ -29,6 +29,8 @@ public class Model {
 	public static String GETTEACHERLIST = "getTeacherList?";
 	public static String STUMODIFYPASSWORD = "stuModifyPassword?";
 	public static String STUDELETECOURSE = "stuDeleteCourse?";
+	public static String STUCHATMESSAGEADD = "stuChatMessageAddServlet?";
+	
 
 	// 用于加载图片的。
 	public static String USERHEADURL = BASEHTTPURL + "/Sign1.1/stuPic/";

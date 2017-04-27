@@ -22,22 +22,21 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-
-import com.sina.weibo.sdk.openapi.models.User;
-
+import android.widget.Toast;
 import csust.student.adapter.MessageAdapter;
 import csust.student.database.MessageDB;
 import csust.student.database.RecentDB;
 import csust.student.database.UserDB;
-import csust.student.info.CourseInfo;
 import csust.student.info.MessageItem;
 import csust.student.info.RecentItem;
+import csust.student.model.Model;
 import csust.student.myview.MsgListView;
 import csust.student.myview.MsgListView.IXListViewListener;
+import csust.student.net.ThreadPoolUtils;
+import csust.student.thread.HttpGetThread;
 import csust.student.utils.HomeWatcher;
 import csust.student.utils.HomeWatcher.OnHomePressedListener;
 import csust.student.utils.L;
-import csust.student.utils.SharePreferenceUtil;
 import csust.student.utils.T;
 
 /**
@@ -311,8 +310,9 @@ public class ChatActivity extends Activity implements OnClickListener, OnTouchLi
 			// 发送消息
 			String msg = mEtMsg.getText().toString();
 			MessageItem item = new MessageItem(MessageItem.MESSAGE_TYPE_TEXT,
-					"zhangsan1", System.currentTimeMillis(), msg,
+					Model.MYUSERINFO.getStudent_id()+"", System.currentTimeMillis(), msg,
 					0, false, 0, 0);
+			
 			adapter.upDateMsg(item);
 			mMsgListView.setSelection(adapter.getCount() - 1);
 			mMsgDB.saveMsg(teacherId, item);// 消息保存数据库
@@ -321,15 +321,14 @@ public class ChatActivity extends Activity implements OnClickListener, OnTouchLi
 			csust.student.info.Message msgItem = new csust.student.info.Message(
 					MessageItem.MESSAGE_TYPE_TEXT, System.currentTimeMillis(),
 					msg, "", 0);
-			if ("".equals(teacherId)) {
-				T.show(ChatActivity.this,
-						"百度push id为空，不能发送消息,请到百度开发者官网生成新的push key，替换", 1);
-				return;
-			}
-//			new SendMsgAsyncTask(mGson.toJson(msgItem), mSpUtil.getUserId())
-//					.send();// push发送消息到服务器
-			// ===保存近期的消息
-
+			//发送信息。通过线程池。
+			
+			String url = Model.STUCHATMESSAGEADD + "studentId=" + Model.MYUSERINFO.getStudent_id()+"&teacherId="+teacherId+"&message="+msg;
+			
+			ThreadPoolUtils.execute(new HttpGetThread(hand2, url));
+			
+			
+			
 			RecentItem recentItem = new RecentItem(
 					MessageItem.MESSAGE_TYPE_TEXT, teacherId,
 					defaultCount, defaulgUserName, msg, 0,
@@ -370,44 +369,7 @@ public class ChatActivity extends Activity implements OnClickListener, OnTouchLi
 		};
 	}
 
-//	@Override
-//	public void onMessage(Message message) {
-//		// 接收到消息更新界面
-//		android.os.Message handlerMsg = handler.obtainMessage(NEW_MESSAGE);
-//		handlerMsg.obj = message;
-//		handler.sendMessage(handlerMsg);
-//
-//	}
 
-//	@Override
-//	public void onBind(String method, int errorCode, String content) {
-//		if (errorCode == 0) {// 如果绑定账号成功，由于第一次运行，给同一tag的人推送一条新人消息
-//			User u = new User(mSpUtil.getUserId(), mSpUtil.getChannelId(),
-//					mSpUtil.getNick(), mSpUtil.getHeadIcon(), 0);
-//			mUserDB.addUser(u);// 把自己添加到数据库
-//			// com.way.bean.Message msgItem = new com.way.bean.Message(
-//			// System.currentTimeMillis(), " ", mSpUtil.getTag());
-//			// new SendMsgAsyncTask(mGson.toJson(msgItem), "").send();;
-//		}
-//
-//	}
-
-//	@Override
-//	public void onNotify(String title, String content) {
-//
-//	}
-//
-//	@Override
-//	public void onNetChange(boolean isNetConnected) {
-//		if (!isNetConnected)
-//			T.showShort(this, "网络连接已断开");
-//
-//	}
-
-//	@Override
-//	public void onNewFriend(User u) {
-//
-//	}
 
 	@SuppressLint("ClickableViewAccessibility")
 	@Override
@@ -456,5 +418,28 @@ public class ChatActivity extends Activity implements OnClickListener, OnTouchLi
 	public void onHomeLongPressed() {
 
 	}
+	
+	Handler hand2 = new Handler(){
+		public void handleMessage(Message msg) {
+			super.handleMessage(msg);
+			if (msg.what == 404) {
+				Toast.makeText(ChatActivity.this, "请求失败，服务器故障", 1).show();
+			} else if (msg.what == 100) {
+				Toast.makeText(ChatActivity.this, "服务器无响应", 1).show();
+			} else if (msg.what == 200) {
+				// 正常的处理逻辑。
+				String result = (String) msg.obj;
+				if(result.equals("1")){
+					//发送成功界面
+					Toast.makeText(ChatActivity.this, "发送成功", 1).show();
+				}else{
+					//发送失败的逻辑
+					
+					Toast.makeText(ChatActivity.this, "发送失败", 1).show();
+				}
+				
+			}
+		};
+	};
 
 }
