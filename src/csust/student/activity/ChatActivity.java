@@ -24,6 +24,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import csust.student.adapter.MessageAdapter;
+import csust.student.application.SignStudentApp;
 import csust.student.database.MessageDB;
 import csust.student.database.RecentDB;
 import csust.student.database.UserDB;

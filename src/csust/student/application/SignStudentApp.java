@@ -1,4 +1,4 @@
-package csust.student.activity;
+package csust.student.application;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -14,6 +14,12 @@ import android.widget.RemoteViews;
 
 import com.iflytek.cloud.SpeechUtility;
 
+import csust.student.activity.MainActivity;
+import csust.student.activity.R;
+import csust.student.activity.R.drawable;
+import csust.student.activity.R.id;
+import csust.student.activity.R.layout;
+import csust.student.activity.R.string;
 import csust.student.database.MessageDB;
 import csust.student.database.RecentDB;
 import csust.student.database.UserDB;
@@ -89,21 +95,7 @@ public class SignStudentApp extends Application {
         return mUserDB;
     }
 
-//    public synchronized BaiduPush getBaiduPush() {
-//        if (mBaiduPushServer == null)
-//            mBaiduPushServer = new BaiduPush(BaiduPush.HTTP_METHOD_POST,
-//                    SECRIT_KEY, API_KEY);
-//        return mBaiduPushServer;
-//
-//    }
 
-//    public synchronized Gson getGson() {
-//        if (mGson == null)
-//            // 不转换没有 @Expose 注解的字段
-//            mGson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation()
-//                    .create();
-//        return mGson;
-//    }
 
     public synchronized MessageDB getMessageDB() {
         if (mMsgDB == null)
@@ -123,17 +115,7 @@ public class SignStudentApp extends Application {
         return mNotificationManager;
     }
 
-//    public synchronized MediaPlayer getMediaPlayer() {
-//        if (mMediaPlayer == null)
-//            mMediaPlayer = MediaPlayer.create(this, R.raw.office);
-//        return mMediaPlayer;
-//    }
-//
-//    public synchronized SharePreferenceUtil getSpUtil() {
-//        if (mSpUtil == null)
-//            mSpUtil = new SharePreferenceUtil(this, SP_FILE_NAME);
-//        return mSpUtil;
-//    }
+
 
     public Map<String, Integer> getFaceMap() {
         if (!mFaceMap.isEmpty())
