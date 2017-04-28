@@ -211,9 +211,10 @@ public class UserInfoActivity extends Activity implements OnClickListener {
 										Editor editor = sp.edit();
 										editor.clear();
 										editor.commit();
-										// 退出登录
-										// KFIMInterfaces
-										// .Logout(UserInfoActivity.this);
+										//将聊天数据库记录全部清除。,不用删除，因为聊天记录是以.id命名的，
+										//所以在保存聊天记录方面可能会有点冗余，反正在手机端
+										
+										
 										Intent intent = new Intent(
 												UserInfoActivity.this,
 												LoginActivity.class);

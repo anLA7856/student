@@ -21,6 +21,7 @@ public class RecentDB {
     private SQLiteDatabase db;
 
     public RecentDB(Context context) {
+    	
         db = context.openOrCreateDatabase(MSG_DBNAME, Context.MODE_PRIVATE,
                 null);
         db.execSQL("CREATE table IF NOT EXISTS "
