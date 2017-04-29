@@ -30,7 +30,8 @@ public class Model {
 	public static String STUMODIFYPASSWORD = "stuModifyPassword?";
 	public static String STUDELETECOURSE = "stuDeleteCourse?";
 	public static String STUCHATMESSAGEADD = "stuChatMessageAdd?";
-	public static String STUGETALLCHATMESSAGE = "stuGetAllChatMessaget?";
+	public static String STUGETALLCHATMESSAGE = "stuGetAllChatMessage?";
+	public static String STUGETNEWCHATMESSAGE = "stuGetNewChatMessage?";
 	
 
 	// 用于加载图片的。
