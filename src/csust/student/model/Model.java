@@ -1,6 +1,7 @@
 package csust.student.model;
 
 import android.os.Environment;
+import csust.student.activity.ChatActivity;
 import csust.student.info.UserInfo;
 
 public class Model {
@@ -36,11 +37,18 @@ public class Model {
 
 	// 用于加载图片的。
 	public static String USERHEADURL = BASEHTTPURL + "/Sign1.1/stuPic/";
-
 	public static String USERREPORTURL = BASEHTTPURL + "/Sign1.1/xls/";
 
 	public static boolean IMGFLAG = false;
 	public static UserInfo MYUSERINFO = null;
+	
+	/*保存一个当前聊天界面的应用，
+	 * 用途，当有新消息时候，如果是当前聊天界面的，就
+	 * 直接修改。而其他的，则先存到数据库中。
+	 * 
+	 */
+	public static ChatActivity MYCHATACTIVITY = null;
+	
 	// APP客服KEY
 	public static String APPKEY = "f241ebf4d4a1e1dfae6f1a3e49aad2f5";
 	/** 当前 DEMO 应用的 APP_KEY，第三方应用应该使用自己的 APP_KEY 替换该 APP_KEY */

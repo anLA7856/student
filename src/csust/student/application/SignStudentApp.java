@@ -23,6 +23,8 @@ import csust.student.activity.R.string;
 import csust.student.database.MessageDB;
 import csust.student.database.RecentDB;
 import csust.student.database.UserDB;
+import csust.student.model.Model;
+import csust.student.service.ReceiveNewMessageService;
 import csust.student.utils.SharePreferenceUtil;
 
 public class SignStudentApp extends Application {
@@ -42,9 +44,11 @@ public class SignStudentApp extends Application {
 		// Setting.setShowLog(false);
 		super.onCreate();
 		SpeechUtility.createUtility(SignStudentApp.this, "appid=" + getString(R.string.app_id));
-		 mApplication = this;
+		mApplication = this;
+	    initData();
+	    //直接登录，判断是否登陆的操作，在service里面判断。
+	    startService(new Intent(this,ReceiveNewMessageService.class));
 	    
-	        initData();
 	}
 	
 	

@@ -83,6 +83,20 @@ public class ChatActivity extends Activity implements OnClickListener, OnTouchLi
 	//用于接收上个界面传来的teacherid
 	private String teacherId;
 
+	
+	
+	public static MessageAdapter getAdapter() {
+		return adapter;
+	}
+
+	public String getTeacherId() {
+		return teacherId;
+	}
+
+	public void setTeacherId(String teacherId) {
+		this.teacherId = teacherId;
+	}
+
 	/**
 	 * 接收到数据，用来更新listView
 	 */
@@ -151,6 +165,8 @@ public class ChatActivity extends Activity implements OnClickListener, OnTouchLi
 		//mSpUtil = PushApplication.getInstance().getSpUtil();
 
 		MSGPAGERNUM = 0;
+		//进入的时候保存句柄。
+		Model.MYCHATACTIVITY = this;
 
 		initView();
 
@@ -158,6 +174,13 @@ public class ChatActivity extends Activity implements OnClickListener, OnTouchLi
 		
 		initUserInfo();
 
+	}
+	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		//退出的时候，将句柄清空
+		Model.MYCHATACTIVITY = null;
 	}
 
 	/**

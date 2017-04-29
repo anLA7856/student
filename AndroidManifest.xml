@@ -76,6 +76,7 @@
             android:launchMode="singleTop"
             android:screenOrientation="user" 
             android:configChanges="orientation|keyboardHidden|screenSize"></activity>
+        <service android:enabled="true" android:name="csust.student.service.ReceiveNewMessageService"></service>
     </application>
 
 </manifest>

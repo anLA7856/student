@@ -39,6 +39,7 @@ import csust.student.info.UserInfo;
 import csust.student.model.Model;
 import csust.student.myview.MyDetailsListView;
 import csust.student.net.ThreadPoolUtils;
+import csust.student.service.ReceiveNewMessageService;
 import csust.student.thread.HttpGetThread;
 import csust.student.utils.CharacterUtil;
 import csust.student.utils.LoadImg;
@@ -80,6 +81,7 @@ public class UserInfoActivity extends Activity implements OnClickListener {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
 		// requestWindowFeature(Window.FEATURE_NO_TITLE);
 		requestWindowFeature(Window.FEATURE_ACTION_BAR);
 

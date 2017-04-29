@@ -26,6 +26,7 @@ import csust.student.info.ChatMessage;
 import csust.student.info.UserInfo;
 import csust.student.model.Model;
 import csust.student.net.ThreadPoolUtils;
+import csust.student.service.ReceiveNewMessageService;
 import csust.student.thread.HttpGetThread;
 import csust.student.thread.HttpPostThread;
 import csust.student.utils.MyJson;
@@ -179,7 +180,8 @@ public class LoginActivity extends Activity implements OnClickListener {
 					mSettinsEd.putString("UserInfoJson", result);
 					// 提交保存
 					mSettinsEd.commit();
-
+					
+					
 					
 
 					finish();
