@@ -142,7 +142,11 @@ public class ChatActivity extends Activity implements OnClickListener, OnTouchLi
 		setContentView(R.layout.chat_main);
 		mApplication = SignStudentApp.getInstance();
 		mParams = getWindow().getAttributes();
+		Intent intent = this.getIntent();
+		// 必须要这个才能，获得名字value
+		Bundle bundle = intent.getBundleExtra("value");
 
+		teacherId = bundle.getSerializable("teacherId").toString();
 		mInputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
 		//mSpUtil = PushApplication.getInstance().getSpUtil();
 
@@ -150,25 +154,8 @@ public class ChatActivity extends Activity implements OnClickListener, OnTouchLi
 
 		initView();
 
-//		mApplication.getNotificationManager().cancel(
-//				PushMessageReceiver.NOTIFY_ID);
-//		PushMessageReceiver.mNewNum = 0;
-//
-//		mUserDB = mApplication.getUserDB();
-//
-//		// 启动百度推送服务
-//		PushManager.startWork(getApplicationContext(),
-//				PushConstants.LOGIN_TYPE_API_KEY, PushApplication.API_KEY);// 无baidu帐号登录,以apiKey随机获取一个id
-
-		// 设置表情翻页效果
-		// mSpUtil.setFaceEffect(8);
 
 		
-		Intent intent = this.getIntent();
-		// 必须要这个才能，获得名字value
-		Bundle bundle = intent.getBundleExtra("value");
-
-		teacherId = bundle.getSerializable("teacherId").toString();
 		initUserInfo();
 
 	}
@@ -286,7 +273,7 @@ public class ChatActivity extends Activity implements OnClickListener, OnTouchLi
 	 */
 	private List<ChatMessage> initMsgData() {
 		List<ChatMessage> list = mMsgDB
-				.getMsg(teacherId, MSGPAGERNUM);
+				.getMsg(Model.MYUSERINFO.getStudent_id()+"",teacherId, MSGPAGERNUM);
 		List<ChatMessage> msgList = new ArrayList<ChatMessage>();// 消息对象数组
 		if (list.size() > 0) {
 			for (ChatMessage entity : list) {
@@ -316,7 +303,7 @@ public class ChatActivity extends Activity implements OnClickListener, OnTouchLi
 			
 			adapter.upDateMsg(item);
 			mMsgListView.setSelection(adapter.getCount() - 1);
-			mMsgDB.saveMsg(teacherId, item);// 消息保存数据库
+			mMsgDB.saveMsg(Model.MYUSERINFO.getStudent_id()+"", item);// 消息保存数据库
 			mEtMsg.setText("");
 
 			//发送信息。通过线程池。

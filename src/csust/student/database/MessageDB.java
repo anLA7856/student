@@ -45,19 +45,19 @@ public class MessageDB {
      * @param pager
      * @return
      */
-    public List<ChatMessage> getMsg(String id, int pager) {
+    public List<ChatMessage> getMsg(String studentId,String id, int pager) {
         List<ChatMessage> list = new LinkedList<ChatMessage>();
         int num = 10 * (pager + 1);// 本来是准备做滚动到顶端自动加载数据
         db.execSQL("CREATE table IF NOT EXISTS _"
-                + id
+                + studentId
                 + " (_id INTEGER PRIMARY KEY AUTOINCREMENT,sender_id INTEGER,receiver_id INTEGER,chat_time TEXT,is_come TEXT, message TEXT,not_read INTERER,name TEXT,head_pic TEXT)");
-        Cursor c = db.rawQuery("SELECT * from _" + id
-                + " ORDER BY _id DESC LIMIT " + num, null);
+        Cursor c = db.rawQuery("SELECT * from _" + studentId
+                + " WHERE (sender_id="+studentId+" AND receiver_id="+id+") OR (sender_id="+id+" AND receiver_id="+studentId+") ORDER BY _id DESC LIMIT " + num, null);
         while (c.moveToNext()) {
         	ChatMessage cm = new ChatMessage();
         	cm.setId(c.getInt(c.getColumnIndex("_id")));
         	cm.setSenderId(c.getInt(c.getColumnIndex("sender_id")));
-        	cm.setReceiveId(c.getInt(c.getColumnIndex("receive_id")));
+        	cm.setReceiveId(c.getInt(c.getColumnIndex("receiver_id")));
         	cm.setChatTime(c.getString(c.getColumnIndex("chat_time")));
         	cm.setNotRead(c.getInt(c.getColumnIndex("not_read")));
         	cm.setIsCome(c.getString(c.getColumnIndex("is_come")));

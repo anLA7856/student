@@ -2,11 +2,6 @@ package csust.student.activity;
 
 import java.util.List;
 
-import csust.student.info.UserInfo;
-import csust.student.model.Model;
-import csust.student.net.ThreadPoolUtils;
-import csust.student.thread.HttpPostThread;
-import csust.student.utils.MyJson;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
@@ -17,16 +12,23 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.view.ActionMode;
 import android.view.View;
-import android.view.Window;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import csust.student.database.MessageDB;
+import csust.student.info.ChatMessage;
+import csust.student.info.UserInfo;
+import csust.student.model.Model;
+import csust.student.net.ThreadPoolUtils;
+import csust.student.thread.HttpGetThread;
+import csust.student.thread.HttpPostThread;
+import csust.student.utils.MyJson;
 
 public class LoginActivity extends Activity implements OnClickListener {
 
@@ -44,10 +46,13 @@ public class LoginActivity extends Activity implements OnClickListener {
 
 	// 定义进度匡
 	private ProgressDialog mProDialog;
+	
+	private MessageDB messageDB = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		messageDB = new MessageDB(getApplicationContext());
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_login);
 		initView();
@@ -131,9 +136,6 @@ public class LoginActivity extends Activity implements OnClickListener {
 
 	Handler hand = new Handler() {
 		public void handleMessage(android.os.Message msg) {
-			// 进度匡消失
-			mProDialog.dismiss();
-
 			super.handleMessage(msg);
 			if (msg.what == 404) {
 				Toast.makeText(LoginActivity.this, "请求失败，服务器故障", 1).show();
@@ -152,11 +154,18 @@ public class LoginActivity extends Activity implements OnClickListener {
 					Toast.makeText(LoginActivity.this, "密码错误", 1).show();
 					return;
 				} else if (result != null) {
+					
+					
 					Toast.makeText(LoginActivity.this, "登录成功", 1).show();
 					List<UserInfo> newList = myJson.getUserInfoList(result);
 					if (newList != null) {
 						Model.MYUSERINFO = newList.get(0);
 					}
+					//获取聊天数据
+					String url1 = Model.STUGETALLCHATMESSAGE + "studentId="+Model.MYUSERINFO.getStudent_id();
+					
+					ThreadPoolUtils.execute(new HttpGetThread(hand1, url1));
+					//
 					Intent intent = new Intent(LoginActivity.this,
 							UserInfoActivity.class);
 					Bundle bund = new Bundle();
@@ -165,17 +174,14 @@ public class LoginActivity extends Activity implements OnClickListener {
 					startActivity(intent);
 					SharedPreferences sp = LoginActivity.this
 							.getSharedPreferences("UserInfo", MODE_PRIVATE);
-					Log.e("SharedPreferencesOld",
-							sp.getString("UserInfoJson", "none"));
+
 					SharedPreferences.Editor mSettinsEd = sp.edit();
 					mSettinsEd.putString("UserInfoJson", result);
 					// 提交保存
 					mSettinsEd.commit();
-					// 设置个人资料"NICKNAME"
-					// KFIMInterfaces.setVCardField(LoginActivity.this,
-					// "NICKNAME", Model.MYUSERINFO.getUname());
-					Log.e("SharedPreferencesNew",
-							sp.getString("UserInfoJson", "none"));
+
+					
+
 					finish();
 				}
 			}
@@ -220,27 +226,26 @@ public class LoginActivity extends Activity implements OnClickListener {
 		}
 	};
 
-	private void updateStatus(int status) {
-		// switch (status) {
-		// case KFXmppManager.CONNECTED:
-		// KFSLog.d("登录成功");
-		// break;
-		// case KFXmppManager.DISCONNECTED:
-		// KFSLog.d("未登录");
-		// break;
-		// case KFXmppManager.CONNECTING:
-		// KFSLog.d("登录中");
-		// break;
-		// case KFXmppManager.DISCONNECTING:
-		// KFSLog.d("登出中");
-		// break;
-		// case KFXmppManager.WAITING_TO_CONNECT:
-		// case KFXmppManager.WAITING_FOR_NETWORK:
-		// KFSLog.d("waiting to connect");
-		// break;
-		// default:
-		// throw new IllegalStateException();
-		// }
-	}
+	Handler hand1 = new Handler() {
+		public void handleMessage(android.os.Message msg) {
+			// 进度匡消失,这里才消失
+			mProDialog.dismiss();
+
+			super.handleMessage(msg);
+			if (msg.what == 404) {
+				Toast.makeText(LoginActivity.this, "请求失败，服务器故障", 1).show();
+			} else if (msg.what == 100) {
+				Toast.makeText(LoginActivity.this, "服务器无响应", 1).show();
+			} else if (msg.what == 200) {
+				String result = (String) msg.obj;
+				// Log.e("loginInfo", result);
+				//从服务器把所有获得了的聊天信息都保存下来。
+				List<ChatMessage> list = myJson.getChatMessageList(result);
+				for(int i = 0;i < list.size();i++){
+					messageDB.saveMsg(Model.MYUSERINFO.getStudent_id()+"", list.get(i));
+				}
+			}
+		};
+	};
 
 }

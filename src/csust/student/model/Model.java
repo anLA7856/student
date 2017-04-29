@@ -29,7 +29,8 @@ public class Model {
 	public static String GETTEACHERLIST = "getTeacherList?";
 	public static String STUMODIFYPASSWORD = "stuModifyPassword?";
 	public static String STUDELETECOURSE = "stuDeleteCourse?";
-	public static String STUCHATMESSAGEADD = "stuChatMessageAddServlet?";
+	public static String STUCHATMESSAGEADD = "stuChatMessageAdd?";
+	public static String STUGETALLCHATMESSAGE = "stuGetAllChatMessaget?";
 	
 
 	// 用于加载图片的。

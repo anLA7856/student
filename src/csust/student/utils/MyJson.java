@@ -7,6 +7,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import csust.student.info.ChatMessage;
 import csust.student.info.CourseInfo;
 import csust.student.info.SearchCourseInfo;
 import csust.student.info.SignInfo;
@@ -159,6 +160,33 @@ public class MyJson {
 				info.setTeacher_name(job.getString("teacher_name"));
 				info.setTeacher_username(job.getString("teacher_username"));
 				
+				list.add(info);
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	public List<ChatMessage> getChatMessageList(String result){
+		List<ChatMessage> list = null;
+		try {
+			JSONArray jay = new JSONArray(result);
+			list = new ArrayList<ChatMessage>();
+			for (int i = 0; i < jay.length(); i++) {
+				JSONObject job = jay.getJSONObject(i);
+				ChatMessage info = new ChatMessage();
+		
+				info.setId(job.getInt("id"));
+				info.setHeadPic(job.getString("headPic"));
+				info.setChatTime(job.getString("chatTime"));
+				info.setIsCome(job.getString("isCome"));
+				info.setMessage(job.getString("message"));
+				info.setName(job.getString("name"));
+				info.setNotRead(job.getInt("notRead"));
+				info.setReceiveId(job.getInt("receiveId"));
+				info.setSenderId(job.getInt("senderId"));
+			
 				list.add(info);
 			}
 		} catch (JSONException e) {
