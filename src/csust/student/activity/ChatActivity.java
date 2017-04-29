@@ -28,7 +28,7 @@ import csust.student.application.SignStudentApp;
 import csust.student.database.MessageDB;
 import csust.student.database.RecentDB;
 import csust.student.database.UserDB;
-import csust.student.info.MessageItem;
+import csust.student.info.ChatMessage;
 import csust.student.info.RecentItem;
 import csust.student.model.Model;
 import csust.student.myview.MsgListView;
@@ -38,7 +38,6 @@ import csust.student.thread.HttpGetThread;
 import csust.student.utils.HomeWatcher;
 import csust.student.utils.HomeWatcher.OnHomePressedListener;
 import csust.student.utils.L;
-import csust.student.utils.T;
 
 /**
  * 
@@ -91,33 +90,34 @@ public class ChatActivity extends Activity implements OnClickListener, OnTouchLi
 		// 接收到消息
 		public void handleMessage(android.os.Message msg) {
 			if (msg.what == NEW_MESSAGE) {
-				// String message = (String) msg.obj;
-				csust.student.info.Message msgItem = (csust.student.info.Message) msg.obj;
-				String userId = msgItem.getUser_id();
-				if (!userId.equals(teacherId))// 如果不是当前正在聊天对象的消息，不处理
-					return;
-
-				int headId = msgItem.getHead_id();
-
-				MessageItem item = null;
-				RecentItem recentItem = null;
-				if (msgItem.getMessagetype() == MessageItem.MESSAGE_TYPE_TEXT) {
-					item = new MessageItem(MessageItem.MESSAGE_TYPE_TEXT,
-							msgItem.getNick(), System.currentTimeMillis(),
-							msgItem.getMessage(), headId, true, 0,
-							msgItem.getVoiceTime());
-					recentItem = new RecentItem(MessageItem.MESSAGE_TYPE_TEXT,
-							userId, headId, msgItem.getNick(),
-							msgItem.getMessage(), 0,
-							System.currentTimeMillis(), msgItem.getVoiceTime());
-
-				}
-
-				adapter.upDateMsg(item);// 更新界面
-				mMsgDB.saveMsg(msgItem.getUser_id(), item);// 保存数据库
-				mRecentDB.saveRecent(recentItem);
-
-				scrollToBottomListItem();
+				//需要重写
+//				// String message = (String) msg.obj;
+//				csust.student.info.Message msgItem = (csust.student.info.Message) msg.obj;
+//				String userId = msgItem.getUser_id();
+//				if (!userId.equals(teacherId))// 如果不是当前正在聊天对象的消息，不处理
+//					return;
+//
+//				int headId = msgItem.getHead_id();
+//
+//				ChatMessage item = null;
+//				RecentItem recentItem = new RecentItem();
+//				
+//					item = new MessageItem(MessageItem.MESSAGE_TYPE_TEXT,
+//							msgItem.getNick(), System.currentTimeMillis(),
+//							msgItem.getMessage(), headId, true, 0,
+//							msgItem.getVoiceTime());
+//					recentItem = new RecentItem(MessageItem.MESSAGE_TYPE_TEXT,
+//							userId, headId, msgItem.getNick(),
+//							msgItem.getMessage(), 0,
+//							System.currentTimeMillis(), msgItem.getVoiceTime());
+//
+//				
+//
+//				adapter.upDateMsg(item);// 更新界面
+//				mMsgDB.saveMsg(msgItem.getUser_id(), item);// 保存数据库
+//				mRecentDB.saveRecent(recentItem);
+//
+//				scrollToBottomListItem();
 
 			}
 		}
@@ -284,17 +284,17 @@ public class ChatActivity extends Activity implements OnClickListener, OnTouchLi
 	/**
 	 * 加载消息历史，从数据库中读出
 	 */
-	private List<MessageItem> initMsgData() {
-		List<MessageItem> list = mMsgDB
+	private List<ChatMessage> initMsgData() {
+		List<ChatMessage> list = mMsgDB
 				.getMsg(teacherId, MSGPAGERNUM);
-		List<MessageItem> msgList = new ArrayList<MessageItem>();// 消息对象数组
+		List<ChatMessage> msgList = new ArrayList<ChatMessage>();// 消息对象数组
 		if (list.size() > 0) {
-			for (MessageItem entity : list) {
+			for (ChatMessage entity : list) {
 				if (entity.getName().equals("")) {
 					entity.setName(defaulgUserName);
 				}
-				if (entity.getHeadImg() < 0) {
-					entity.setHeadImg(defaultCount);
+				if (entity.getHeadPic().equals("")) {
+					entity.setHeadPic(defaultCount+"");
 				}
 				msgList.add(entity);
 			}
@@ -310,18 +310,15 @@ public class ChatActivity extends Activity implements OnClickListener, OnTouchLi
 		case R.id.send_btn: {
 			// 发送消息
 			String msg = mEtMsg.getText().toString();
-			MessageItem item = new MessageItem(MessageItem.MESSAGE_TYPE_TEXT,
-					Model.MYUSERINFO.getStudent_id()+"", System.currentTimeMillis(), msg,
-					0, false, 0, 0);
+			ChatMessage item = new ChatMessage(0, Model.MYUSERINFO.getStudent_id(), Integer.parseInt(teacherId), msg,
+					System.currentTimeMillis()+"", 1, 2+"", Model.MYUSERINFO.getStudent_name(), "");
+			
 			
 			adapter.upDateMsg(item);
 			mMsgListView.setSelection(adapter.getCount() - 1);
 			mMsgDB.saveMsg(teacherId, item);// 消息保存数据库
 			mEtMsg.setText("");
-			// ===发送消息到服务器
-			csust.student.info.Message msgItem = new csust.student.info.Message(
-					MessageItem.MESSAGE_TYPE_TEXT, System.currentTimeMillis(),
-					msg, "", 0);
+
 			//发送信息。通过线程池。
 			
 			String url = Model.STUCHATMESSAGEADD + "studentId=" + Model.MYUSERINFO.getStudent_id()+"&teacherId="+teacherId+"&message="+msg;
@@ -331,7 +328,7 @@ public class ChatActivity extends Activity implements OnClickListener, OnTouchLi
 			
 			
 			RecentItem recentItem = new RecentItem(
-					MessageItem.MESSAGE_TYPE_TEXT, teacherId,
+					1, teacherId,
 					defaultCount, defaulgUserName, msg, 0,
 					System.currentTimeMillis(), 0);
 			mRecentDB.saveRecent(recentItem);
@@ -396,7 +393,7 @@ public class ChatActivity extends Activity implements OnClickListener, OnTouchLi
 	@Override
 	public void onRefresh() {
 		MSGPAGERNUM++;
-		List<MessageItem> msgList = initMsgData();
+		List<ChatMessage> msgList = initMsgData();
 		int position = adapter.getCount();
 		adapter.setmMsgList(msgList);
 		mMsgListView.stopRefresh();

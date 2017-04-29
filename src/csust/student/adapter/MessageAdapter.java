@@ -17,7 +17,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import csust.student.activity.R;
-import csust.student.info.MessageItem;
+import csust.student.info.ChatMessage;
 import csust.student.myview.GifTextView;
 import csust.student.utils.SharePreferenceUtil;
 import csust.student.utils.TimeUtil;
@@ -33,24 +33,20 @@ public class MessageAdapter extends BaseAdapter {
 	public static final Pattern EMOTION_URL = Pattern.compile("\\[(\\S+?)\\]");
 	public static final int MESSAGE_TYPE_INVALID = -1;
 	public static final int MESSAGE_TYPE_MINE_TETX = 0x00;
-	public static final int MESSAGE_TYPE_MINE_IMAGE = 0x01;
-	public static final int MESSAGE_TYPE_MINE_AUDIO = 0x02;
 	public static final int MESSAGE_TYPE_OTHER_TEXT = 0x03;
-	public static final int MESSAGE_TYPE_OTHER_IMAGE = 0x04;
-	public static final int MESSAGE_TYPE_OTHER_AUDIO = 0x05;
 	public static final int MESSAGE_TYPE_TIME_TITLE = 0x07;
 	public static final int MESSAGE_TYPE_HISTORY_DIVIDER = 0x08;
 	private static final int VIEW_TYPE_COUNT = 9;
 
 	private Context mContext;
 	private LayoutInflater mInflater;
-	private List<MessageItem> mMsgList;
+	private List<ChatMessage> mMsgList;
 	private SharePreferenceUtil mSpUtil;
 
 	private long mPreDate;
 
 
-	public MessageAdapter(Context context, List<MessageItem> msgList) {
+	public MessageAdapter(Context context, List<ChatMessage> msgList) {
 		this.mContext = context;
 		mMsgList = msgList;
 		mInflater = LayoutInflater.from(context);
@@ -66,17 +62,17 @@ public class MessageAdapter extends BaseAdapter {
 		}
 	}
 
-	public void setmMsgList(List<MessageItem> msgList) {
+	public void setmMsgList(List<ChatMessage> msgList) {
 		mMsgList = msgList;
 		notifyDataSetChanged();
 	}
 
-	public void upDateMsg(MessageItem msg) {
+	public void upDateMsg(ChatMessage msg) {
 		mMsgList.add(msg);
 		notifyDataSetChanged();
 	}
 
-	public void upDateMsgByList(List<MessageItem> list) {
+	public void upDateMsgByList(List<ChatMessage> list) {
 		if (list != null && list.size() > 0) {
 			for (int i = 0; i < list.size(); i++) {
 				mMsgList.add(list.get(i));
@@ -134,20 +130,16 @@ public class MessageAdapter extends BaseAdapter {
 			holder = (MessageHolderBase) convertView.getTag();
 		}
 
-		final MessageItem mItem = mMsgList.get(position);
+		final ChatMessage mItem = mMsgList.get(position);
 		if (mItem != null) {
-			int msgType = mItem.getMsgType();
-			if (msgType == MessageItem.MESSAGE_TYPE_TEXT) {
-				handleTextMessage((TextMessageHolder) holder, mItem, parent);
-
-			}
+			handleTextMessage((TextMessageHolder) holder, mItem, parent);
 		}
 
 		return convertView;
 	}
 
 	private void handleTextMessage(final TextMessageHolder holder,
-			final MessageItem mItem, final View parent) {
+			final ChatMessage mItem, final View parent) {
 		handleBaseMessage(holder, mItem);
 
 		// 文字
@@ -159,8 +151,8 @@ public class MessageAdapter extends BaseAdapter {
 
 
 	private void handleBaseMessage(MessageHolderBase holder,
-			final MessageItem mItem) {
-		holder.time.setText(TimeUtil.getChatTime(mItem.getDate()));
+			final ChatMessage mItem) {
+		holder.time.setText(TimeUtil.getChatTime(Long.parseLong(mItem.getChatTime())));
 		holder.time.setVisibility(View.VISIBLE);
 //		holder.head.setBackgroundResource(PushApplication.heads[mItem
 //				.getHeadImg()]);
@@ -282,31 +274,15 @@ public class MessageAdapter extends BaseAdapter {
 				return MESSAGE_TYPE_INVALID;
 			}
 
-			MessageItem item = mMsgList.get(position);
+			ChatMessage item = mMsgList.get(position);
 			if (item != null) {
-				boolean comMeg = item.isComMeg();
-				int type = item.getMsgType();
+				boolean comMeg = item.getIsCome().equals("1")? true:false;
 				if (comMeg) {
 					// 接受的消息
-					switch (type) {
-					case MessageItem.MESSAGE_TYPE_TEXT: {
-						return MESSAGE_TYPE_OTHER_TEXT;
-					}
-
-					default:
-						break;
-					}
+					return MESSAGE_TYPE_OTHER_TEXT;
 				} else {
 					// 发送的消息
-					switch (type) {
-					case MessageItem.MESSAGE_TYPE_TEXT: {
-						return MESSAGE_TYPE_MINE_TETX;
-
-					}
-
-					default:
-						break;
-					}
+					return MESSAGE_TYPE_MINE_TETX;
 				}
 			}
 			return MESSAGE_TYPE_INVALID;

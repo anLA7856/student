@@ -8,7 +8,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import csust.student.info.ChatMessage;
-import csust.student.info.MessageItem;
 /**
  * 操作聊天消息的数据库。
  * @author U-ANLA
@@ -31,13 +30,13 @@ public class MessageDB {
     public void saveMsg(String id, ChatMessage entity) {
         db.execSQL("CREATE table IF NOT EXISTS _"
                 + id
-                + " (_id INTEGER PRIMARY KEY AUTOINCREMENT,sender_id INTEGER,receiver_id INTEGER,chat_time TEXT,is_come TEXT, message TEXT,not_read INTERER)");
+                + " (_id INTEGER PRIMARY KEY AUTOINCREMENT,sender_id INTEGER,receiver_id INTEGER,chat_time TEXT,is_come TEXT, message TEXT,not_read INTERER,name TEXT,head_pic TEXT)");
         db.execSQL(
                 "insert into _"
                         + id
-                        + " (sender_id,receiver_id,chat_time,message,not_read,is_come) values(?,?,?,?,?,?)",
+                        + " (sender_id,receiver_id,chat_time,message,not_read,is_come,name,head_pic) values(?,?,?,?,?,?,?,?)",
                 new Object[] { entity.getSenderId(), entity.getReceiveId(),
-                        entity.getChatTime(), entity.getMessage(), entity.getNotRead(),entity.getIsCome()});
+                        entity.getChatTime(), entity.getMessage(), entity.getNotRead(),entity.getIsCome(),entity.getName(),entity.getHeadPic()});
     }
 
     /**
@@ -51,7 +50,7 @@ public class MessageDB {
         int num = 10 * (pager + 1);// 本来是准备做滚动到顶端自动加载数据
         db.execSQL("CREATE table IF NOT EXISTS _"
                 + id
-                + " (_id INTEGER PRIMARY KEY AUTOINCREMENT,sender_id INTEGER,receiver_id INTEGER,chat_time TEXT,is_come TEXT, message TEXT,not_read INTERER)");
+                + " (_id INTEGER PRIMARY KEY AUTOINCREMENT,sender_id INTEGER,receiver_id INTEGER,chat_time TEXT,is_come TEXT, message TEXT,not_read INTERER,name TEXT,head_pic TEXT)");
         Cursor c = db.rawQuery("SELECT * from _" + id
                 + " ORDER BY _id DESC LIMIT " + num, null);
         while (c.moveToNext()) {
@@ -63,7 +62,8 @@ public class MessageDB {
         	cm.setNotRead(c.getInt(c.getColumnIndex("not_read")));
         	cm.setIsCome(c.getString(c.getColumnIndex("is_come")));
         	cm.setMessage(c.getString(c.getColumnIndex("message")));
-        	
+        	cm.setName(c.getString(c.getColumnIndex("name")));
+        	cm.setHeadPic(c.getString(c.getColumnIndex("head_pic")));
            
             list.add(cm);
         }
@@ -80,7 +80,7 @@ public class MessageDB {
     public int getNewCount(String id) {
         db.execSQL("CREATE table IF NOT EXISTS _"
                 + id
-                + " (_id INTEGER PRIMARY KEY AUTOINCREMENT,sender_id INTEGER,receiver_id INTEGER,chat_time TEXT,is_come TEXT, message TEXT,not_read INTERER)");
+                + " (_id INTEGER PRIMARY KEY AUTOINCREMENT,sender_id INTEGER,receiver_id INTEGER,chat_time TEXT,is_come TEXT, message TEXT,not_read INTERER,name TEXT,head_pic TEXT)");
         Cursor c = db.rawQuery("SELECT not_read from _" + id + " where not_read=1",
                 null);
         int count = c.getCount();
@@ -96,7 +96,7 @@ public class MessageDB {
     public void clearNewCount(String id) {
         db.execSQL("CREATE table IF NOT EXISTS _"
                 + id
-                + " (_id INTEGER PRIMARY KEY AUTOINCREMENT,sender_id INTEGER,receiver_id INTEGER,chat_time TEXT,is_come TEXT, message TEXT,not_read INTERER)");
+                + " (_id INTEGER PRIMARY KEY AUTOINCREMENT,sender_id INTEGER,receiver_id INTEGER,chat_time TEXT,is_come TEXT, message TEXT,not_read INTERER,name TEXT,head_pic TEXT)");
         db.execSQL("update _" + id + " set not_read=0 where not_read=1");
     }
 

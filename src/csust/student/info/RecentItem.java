@@ -12,12 +12,7 @@ import csust.student.activity.R;
 public class RecentItem implements Comparable<RecentItem> {
     // Text
     public static final int MESSAGE_TYPE_TEXT = 1;
-    // image
-    public static final int MESSAGE_TYPE_IMG = 2;
-    // file
-    public static final int MESSAGE_TYPE_FILE = 3;
-    // Record
-    public static final int MESSAGE_TYPE_RECORD = 4;
+
 
     private String userId;
     private int headImg;// 头像
