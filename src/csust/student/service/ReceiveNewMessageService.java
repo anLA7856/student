@@ -55,9 +55,10 @@ public class ReceiveNewMessageService extends Service{
 					//存到数据库
 					mMsgDB.saveMsg(Model.MYUSERINFO.getStudent_id()+"", cm);
 				}
-				//改变标志位
-				isRun = false;
+				
 			}
+			//改变标志位
+			isRun = false;
 		};
 	};
 	
