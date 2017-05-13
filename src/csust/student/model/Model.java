@@ -9,7 +9,7 @@ public class Model {
 	public static int INIT_COUNT = 15;
 
 	//public static String BASEHTTPURL = "http://120.76.146.248:8080";
-	public static String BASEHTTPURL = "http://10.129.92.21:8989";
+	public static String BASEHTTPURL = "http://192.168.191.1:8989";
 	public static String HTTPURL = BASEHTTPURL + "/Sign1.1/";
 
 	public static String BASELOCATION = Environment
