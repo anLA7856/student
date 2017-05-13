@@ -27,7 +27,6 @@ import csust.student.adapter.MessageAdapter;
 import csust.student.application.SignStudentApp;
 import csust.student.database.MessageDB;
 import csust.student.database.RecentDB;
-import csust.student.database.UserDB;
 import csust.student.info.ChatMessage;
 import csust.student.info.RecentItem;
 import csust.student.model.Model;
@@ -40,23 +39,19 @@ import csust.student.utils.HomeWatcher.OnHomePressedListener;
 import csust.student.utils.L;
 
 /**
+ * 聊天的主界面
  * 
- * @desc: 聊天界面主Activity /**
- * @desc:相册图片列表
- * @date: 2015年7月3日 下午4:40:54 QQ2050542273
- * @email:15162925211@163.com
+ * @author U-ANLA
+ *
  */
-
 public class ChatActivity extends Activity implements OnClickListener, OnTouchListener, IXListViewListener,
 		OnHomePressedListener {
 
 	public static final int NEW_MESSAGE = 0x001;// 收到消息
 	public static int MSGPAGERNUM;
-	private static final int POLL_INTERVAL = 300;
 	private static final int CAMERA_WITH_DATA = 10;
 
-	public static String DEFAULT_ID = "1100877319654414526";
-	public static String defaulgUserName = "在飞";
+	public static String defaulgUserName = "anla7856";
 	public static String defaulgIcon = "4";
 	public static int defaultCount = 0;
 
@@ -71,14 +66,11 @@ public class ChatActivity extends Activity implements OnClickListener, OnTouchLi
 	private MsgListView mMsgListView;// 展示消息的
 	private MessageDB mMsgDB;// 保存消息的数据库
 	private RecentDB mRecentDB;
-	//private Gson mGson;
 	private WindowManager.LayoutParams mParams;
 
 	private HomeWatcher mHomeWatcher;// home键
 
-	// 接受数据
-	private UserDB mUserDB;
-//	private SendMsgAsyncTask mSendTask;
+	
 	
 	//用于接收上个界面传来的teacherid
 	private String teacherId;
@@ -97,58 +89,9 @@ public class ChatActivity extends Activity implements OnClickListener, OnTouchLi
 		this.teacherId = teacherId;
 	}
 
-	/**
-	 * 接收到数据，用来更新listView
-	 */
-	private Handler handler = new Handler() {
-		// 接收到消息
-		public void handleMessage(android.os.Message msg) {
-			if (msg.what == NEW_MESSAGE) {
-				//需要重写
-//				// String message = (String) msg.obj;
-//				csust.student.info.Message msgItem = (csust.student.info.Message) msg.obj;
-//				String userId = msgItem.getUser_id();
-//				if (!userId.equals(teacherId))// 如果不是当前正在聊天对象的消息，不处理
-//					return;
-//
-//				int headId = msgItem.getHead_id();
-//
-//				ChatMessage item = null;
-//				RecentItem recentItem = new RecentItem();
-//				
-//					item = new MessageItem(MessageItem.MESSAGE_TYPE_TEXT,
-//							msgItem.getNick(), System.currentTimeMillis(),
-//							msgItem.getMessage(), headId, true, 0,
-//							msgItem.getVoiceTime());
-//					recentItem = new RecentItem(MessageItem.MESSAGE_TYPE_TEXT,
-//							userId, headId, msgItem.getNick(),
-//							msgItem.getMessage(), 0,
-//							System.currentTimeMillis(), msgItem.getVoiceTime());
-//
-//				
-//
-//				adapter.upDateMsg(item);// 更新界面
-//				mMsgDB.saveMsg(msgItem.getUser_id(), item);// 保存数据库
-//				mRecentDB.saveRecent(recentItem);
-//
-//				scrollToBottomListItem();
 
-			}
-		}
 
-	};
 
-	/**
-	 * @Description 滑动到列表底部
-	 */
-	private void scrollToBottomListItem() {
-
-		// todo eric, why use the last one index + 2 can real scroll to the
-		// bottom?
-		if (mMsgListView != null) {
-			mMsgListView.setSelection(adapter.getCount() + 1);
-		}
-	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -202,7 +145,6 @@ public class ChatActivity extends Activity implements OnClickListener, OnTouchLi
 		mBtnSend.setOnClickListener(this);
 
 		// 消息
-//		mApplication = PushApplication.getInstance();
 		mMsgDB = mApplication.getMessageDB();// 发送数据库
 		mRecentDB = mApplication.getRecentDB();// 接收消息数据库
 //		mGson = mApplication.getGson();

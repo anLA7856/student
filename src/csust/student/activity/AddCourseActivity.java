@@ -35,6 +35,12 @@ import csust.student.refresh.view.PullableListView;
 import csust.student.thread.HttpGetThread;
 import csust.student.utils.MyJson;
 
+/**
+ * 用于添加课程的
+ * 
+ * @author U-ANLA
+ *
+ */
 public class AddCourseActivity extends Activity implements OnClickListener {
 
 	// 定义相应activity控件。
@@ -43,7 +49,6 @@ public class AddCourseActivity extends Activity implements OnClickListener {
 	private RadioGroup mRadioGroup;
 	private RadioButton radioTeacher, radioCourse;
 	private EditText editTeacher, editCourse;
-	
 
 	// 获得隐藏控件
 	private TextView HomeNoValue;
@@ -57,8 +62,8 @@ public class AddCourseActivity extends Activity implements OnClickListener {
 
 	// 定义获取list的url
 	private String urlList = null;
-	
-	//用于添加课程的url
+
+	// 用于添加课程的url
 	private String urlAddCourse = null;
 
 	// 定义json的解析类
@@ -67,10 +72,9 @@ public class AddCourseActivity extends Activity implements OnClickListener {
 	// 定义自己的searchcourseinfoadapter
 	private MySearchCourseInfoAdapter myAdapter;
 
-
 	// 定义自己的list
 	private List<SearchCourseInfo> list;
-	
+
 	private PullableListView listView;
 
 	// 用来判断是首次加载还是，到底部了加载
@@ -79,9 +83,8 @@ public class AddCourseActivity extends Activity implements OnClickListener {
 	// 用于获取共享的PullToRefreshLayout pullToRefreshLayout
 	private static PullToRefreshLayout pullToRefreshLayout;
 
-	//用于检测起始地点
+	// 用于检测起始地点
 	private int mStart = 0;
-	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -106,12 +109,10 @@ public class AddCourseActivity extends Activity implements OnClickListener {
 		HomeNoValue = (TextView) findViewById(R.id.add_course_HomeNoValue);
 		mLinearLayout = (LinearLayout) findViewById(R.id.HomeGroup);
 
-		((PullToRefreshLayout)findViewById(R.id.refresh_view))
-		.setOnRefreshListener(new MyInnerListener());
-		listView = (PullableListView)findViewById(R.id.content_view);
+		((PullToRefreshLayout) findViewById(R.id.refresh_view))
+				.setOnRefreshListener(new MyInnerListener());
+		listView = (PullableListView) findViewById(R.id.content_view);
 
-		
-		
 		// 设置radiogroup的选择事件
 		mRadioGroup.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
@@ -141,7 +142,7 @@ public class AddCourseActivity extends Activity implements OnClickListener {
 		// 设置listview
 
 		listView.setAdapter(myAdapter);
-		
+
 		listView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
@@ -149,21 +150,33 @@ public class AddCourseActivity extends Activity implements OnClickListener {
 					int position, long id) {
 				// 添加点击事件。用于添加课程。
 				final int myPosition = position;
-				new AlertDialog.Builder(AddCourseActivity.this).setTitle("添加提示框").setMessage("确定要添加该门课么？")
-				.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-					
-					@SuppressLint("ShowToast")
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						mProgressDialog.setTitle("添加中");
-						mProgressDialog.show();
-						//添加逻辑
-						//拼装语句
-						urlAddCourse = Model.ADDNEWCOURSE + "student_id=" + Model.MYUSERINFO.getStudent_id()+"&course_id="+list.get(myPosition).getCourse_id();
-						//发送请求
-						ThreadPoolUtils.execute(new HttpGetThread(hand2, urlAddCourse));
-					}
-				}).setNegativeButton("取消", null).show();
+				new AlertDialog.Builder(AddCourseActivity.this)
+						.setTitle("添加提示框")
+						.setMessage("确定要添加该门课么？")
+						.setPositiveButton("确定",
+								new DialogInterface.OnClickListener() {
+
+									@SuppressLint("ShowToast")
+									@Override
+									public void onClick(DialogInterface dialog,
+											int which) {
+										mProgressDialog.setTitle("添加中");
+										mProgressDialog.show();
+										// 添加逻辑
+										// 拼装语句
+										urlAddCourse = Model.ADDNEWCOURSE
+												+ "student_id="
+												+ Model.MYUSERINFO
+														.getStudent_id()
+												+ "&course_id="
+												+ list.get(myPosition)
+														.getCourse_id();
+										// 发送请求
+										ThreadPoolUtils
+												.execute(new HttpGetThread(
+														hand2, urlAddCourse));
+									}
+								}).setNegativeButton("取消", null).show();
 			}
 		});
 
@@ -195,27 +208,33 @@ public class AddCourseActivity extends Activity implements OnClickListener {
 		if (mRadioGroup.getCheckedRadioButtonId() == R.id.add_course_radio1
 				&& !teacherNum.equals("")) {
 			// 选择教师，并且教师号不为空
-			//判断是否有非法字符
-			if(teacherNum.matches("[a-zA-Z0-9]{0,12}")){
+			// 判断是否有非法字符
+			if (teacherNum.matches("[a-zA-Z0-9]{0,12}")) {
 				isFirst = true;
-				urlList = Model.SEARCHFORLIST + "teacherNum=" + teacherNum+"&student_id="+Model.MYUSERINFO.getStudent_id()+"&start="+mStart+"&count="+Model.INIT_COUNT;
+				urlList = Model.SEARCHFORLIST + "teacherNum=" + teacherNum
+						+ "&student_id=" + Model.MYUSERINFO.getStudent_id()
+						+ "&start=" + mStart + "&count=" + Model.INIT_COUNT;
 				// 异步线程请求
 				ThreadPoolUtils.execute(new HttpGetThread(hand1, urlList));
-			}else{
-				Toast.makeText(AddCourseActivity.this, "不能包含非法字符，只能数字", 1).show();
+			} else {
+				Toast.makeText(AddCourseActivity.this, "不能包含非法字符，只能数字", 1)
+						.show();
 			}
-			
+
 		} else if (mRadioGroup.getCheckedRadioButtonId() == R.id.add_course_radio2
 				&& !courseNum.equals("")) {
-			
-			if(courseNum.matches("[a-zA-Z0-9]{0,12}")){
+
+			if (courseNum.matches("[a-zA-Z0-9]{0,12}")) {
 				// 选择学生号，并且学生号不为空
 				isFirst = true;
-				urlList = Model.SEARCHFORLIST + "courseNum=" + courseNum+"&student_id="+Model.MYUSERINFO.getStudent_id()+"&start="+mStart+"&count="+Model.INIT_COUNT;
+				urlList = Model.SEARCHFORLIST + "courseNum=" + courseNum
+						+ "&student_id=" + Model.MYUSERINFO.getStudent_id()
+						+ "&start=" + mStart + "&count=" + Model.INIT_COUNT;
 				// 异步线程请求
 				ThreadPoolUtils.execute(new HttpGetThread(hand1, urlList));
-			}else{
-				Toast.makeText(AddCourseActivity.this, "不能包含非法字符，只能数字", 1).show();
+			} else {
+				Toast.makeText(AddCourseActivity.this, "不能包含非法字符，只能数字", 1)
+						.show();
 			}
 
 		}
@@ -242,7 +261,8 @@ public class AddCourseActivity extends Activity implements OnClickListener {
 						list.removeAll(list);
 					}
 				}
-				List<SearchCourseInfo> newList = myJson.getSearchCourseInfoList(result);
+				List<SearchCourseInfo> newList = myJson
+						.getSearchCourseInfoList(result);
 				if (newList.size() != 0) {
 
 					for (SearchCourseInfo t : newList) {
@@ -268,9 +288,8 @@ public class AddCourseActivity extends Activity implements OnClickListener {
 			myAdapter.notifyDataSetChanged();
 		};
 	};
-	
-	
-	Handler hand2 = new Handler(){
+
+	Handler hand2 = new Handler() {
 		public void handleMessage(Message msg) {
 			super.handleMessage(msg);
 			if (msg.what == 404) {
@@ -280,8 +299,8 @@ public class AddCourseActivity extends Activity implements OnClickListener {
 			} else if (msg.what == 200) {
 				// 正常的处理逻辑。
 				String result = (String) msg.obj;
-				if(result.equals("[1]")){
-					//添加成功界面
+				if (result.equals("[1]")) {
+					// 添加成功界面
 					mProgressDialog.setTitle("添加成功");
 					mProgressDialog.dismiss();
 					Toast.makeText(AddCourseActivity.this, "添加课程成功！", 1).show();
@@ -289,18 +308,18 @@ public class AddCourseActivity extends Activity implements OnClickListener {
 					courseNum = editCourse.getText().toString().trim();
 
 					doThreadMethod();
-				}else{
-					//添加失败的逻辑
+				} else {
+					// 添加失败的逻辑
 					mProgressDialog.setTitle("添加失败");
 					mProgressDialog.dismiss();
-					Toast.makeText(AddCourseActivity.this, "添加课程失败！！！！", 1).show();
+					Toast.makeText(AddCourseActivity.this, "添加课程失败！！！！", 1)
+							.show();
 				}
-				
+
 			}
 		};
 	};
-	
-	
+
 	private class MyInnerListener implements MyOnRefreshListener {
 
 		@Override
@@ -310,7 +329,9 @@ public class AddCourseActivity extends Activity implements OnClickListener {
 			isFirst = true;
 			mStart = 0;
 			// 第一次，获得的个数为15，也就是init_count
-			urlList = Model.SEARCHFORLIST + "courseNum=" + courseNum+"&student_id="+Model.MYUSERINFO.getStudent_id()+"&start="+mStart+"&count="+Model.INIT_COUNT;
+			urlList = Model.SEARCHFORLIST + "courseNum=" + courseNum
+					+ "&student_id=" + Model.MYUSERINFO.getStudent_id()
+					+ "&start=" + mStart + "&count=" + Model.INIT_COUNT;
 
 			ThreadPoolUtils.execute(new HttpGetThread(hand1, urlList));
 		}
@@ -322,7 +343,9 @@ public class AddCourseActivity extends Activity implements OnClickListener {
 			isFirst = false;
 			mStart = list.size();
 			// 第一次，获得的个数为15，也就是init_count
-			urlList = Model.SEARCHFORLIST + "courseNum=" + courseNum+"&student_id="+Model.MYUSERINFO.getStudent_id()+"&start="+mStart+"&count="+5;
+			urlList = Model.SEARCHFORLIST + "courseNum=" + courseNum
+					+ "&student_id=" + Model.MYUSERINFO.getStudent_id()
+					+ "&start=" + mStart + "&count=" + 5;
 
 			ThreadPoolUtils.execute(new HttpGetThread(hand1, urlList));
 		}
