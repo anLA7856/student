@@ -4,6 +4,12 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
+/**
+ * 用于检测网络状态
+ * 
+ * @author U-ANLA
+ *
+ */
 public class NetUtil {
 	public static boolean isNetConnected(Context context) {
 		boolean isNetConnected;
@@ -12,8 +18,8 @@ public class NetUtil {
 				.getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo info = connManager.getActiveNetworkInfo();
 		if (info != null && info.isAvailable()) {
-//			String name = info.getTypeName();
-//			L.i("当前网络名称：" + name);
+			// String name = info.getTypeName();
+			// L.i("当前网络名称：" + name);
 			isNetConnected = true;
 		} else {
 			L.i("没有可用网络");

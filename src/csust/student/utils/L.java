@@ -3,10 +3,10 @@ package csust.student.utils;
 import android.util.Log;
 
 /**
- *BLOG:http://blog.sina.com.cn/cuil11
- * @date: 2015年7月3日 下午4:40:54
- * QQ2050542273
- * @email:15162925211@163.com
+ * log的封装类
+ * 
+ * @author anLA7856
+ *
  */
 public class L {
 	public static boolean isDebug = true;// 是否需要打印bug，可以在application的onCreate函数里面初始化

@@ -6,11 +6,9 @@ import android.content.Intent;
 import android.content.IntentFilter;
 
 /**
- * @desc:Home键监听封装
- *BLOG:http://blog.sina.com.cn/cuil11
- * @date: 2015年7月3日 下午4:40:54
- * QQ2050542273
- * @email:15162925211@163.com
+ * 
+ * @author
+ *
  */
 public class HomeWatcher {
 

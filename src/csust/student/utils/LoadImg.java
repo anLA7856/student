@@ -16,6 +16,11 @@ import android.widget.ImageView;
 import csust.student.model.Model;
 import csust.student.net.DownBitmap;
 
+/**
+ * 
+ * @author
+ *
+ */
 public class LoadImg {
 	// 下载图片最大并行线程数
 	private static final int Max = 5;
@@ -94,7 +99,7 @@ public class LoadImg {
 					// 图片压缩为原来的一半
 					BitmapFactory.Options op = new BitmapFactory.Options();
 					op.inSampleSize = 6;
-					if(Model.IMGFLAG)
+					if (Model.IMGFLAG)
 						op.inSampleSize = 1;
 					Bitmap bit = BitmapFactory.decodeStream(inputStream, null,
 							op);

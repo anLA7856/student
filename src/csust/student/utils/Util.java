@@ -4,6 +4,11 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.util.TypedValue;
 
+/**
+ * 
+ * @author anLA7856
+ *
+ */
 public class Util {
 
     public static int dpToPx(Resources res, int dp) {

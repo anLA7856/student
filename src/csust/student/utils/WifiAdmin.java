@@ -9,6 +9,12 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.net.wifi.WifiManager.WifiLock;
 
+/**
+ * wifi管理类
+ * 
+ * @author anLA7856
+ *
+ */
 public class WifiAdmin {
 	// 定义一个WifiManager对象
 	private WifiManager mWifiManager;
@@ -81,7 +87,7 @@ public class WifiAdmin {
 	}
 
 	public void startScan() {
-		if(mWifiList != null){
+		if (mWifiList != null) {
 			mWifiList.removeAll(mWifiList);
 		}
 		mWifiManager.startScan();
