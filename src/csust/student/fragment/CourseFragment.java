@@ -36,7 +36,7 @@ import csust.student.utils.MyJson;
 /**
  * 查看的课程列表的fragment
  * 
- * @author U-anLA
+ * @author anLA7856
  *
  */
 

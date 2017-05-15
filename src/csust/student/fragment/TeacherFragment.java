@@ -35,7 +35,7 @@ import csust.student.utils.MyJson;
 /**
  * 查看的课程列表的fragment
  * 
- * @author U-anLA
+ * @author anLA7856
  *
  */
 
@@ -117,15 +117,13 @@ public class TeacherFragment extends Fragment implements OnClickListener {
 			HomeNoValue.setText("请先登录");
 			HomeNoValue.setVisibility(View.VISIBLE);
 		}
-		
-		//设置项目监听事件
-		listView.setOnItemLongClickListener(new OnItemLongClickListener()
-		{
+
+		// 设置项目监听事件
+		listView.setOnItemLongClickListener(new OnItemLongClickListener() {
 
 			@Override
 			public boolean onItemLongClick(AdapterView<?> parent, View view,
-					int position, long id)
-			{
+					int position, long id) {
 				Toast.makeText(
 						ctx,
 						"LongClick on "
@@ -134,22 +132,21 @@ public class TeacherFragment extends Fragment implements OnClickListener {
 				return true;
 			}
 		});
-		listView.setOnItemClickListener(new OnItemClickListener()
-		{
+		listView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id)
-			{
-				//在这里将聊天界面加进去。
+					int position, long id) {
+				// 在这里将聊天界面加进去。
 				Intent intent = new Intent(ctx, ChatActivity.class);
 				Bundle bund = new Bundle();
-				bund.putSerializable("teacherId", list.get(position).getTeacher_id());
+				bund.putSerializable("teacherId", list.get(position)
+						.getTeacher_id());
 
 				// 这句暂时不嫩共。
 				intent.putExtra("value", bund);
 				startActivity(intent);
-				
+
 			}
 		});
 
@@ -171,7 +168,7 @@ public class TeacherFragment extends Fragment implements OnClickListener {
 							.refreshFinish(PullToRefreshLayout.SUCCEED);
 				}
 				String result = (String) msg.obj;
-				if(result == null){
+				if (result == null) {
 					return;
 				}
 				if (isFirst == true) {
@@ -248,7 +245,7 @@ public class TeacherFragment extends Fragment implements OnClickListener {
 	public void onResume() {
 		super.onResume();
 		// 每次onresum时候，就要把homenovalue设为false
-		mStart=0;
+		mStart = 0;
 		HomeNoValue.setVisibility(View.GONE);
 		if (isPause == false) {
 			return;

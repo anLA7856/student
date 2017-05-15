@@ -34,7 +34,7 @@ import csust.student.utils.MyJson;
 /**
  * 开始签到的fragment
  * 
- * @author U-anLA
+ * @author anLA7856
  *
  */
 
@@ -57,22 +57,22 @@ public class BeginSignFragment extends Fragment implements OnClickListener {
 	private boolean loadflag = false;
 	private boolean listBottomFlag = true;
 	private Context ctx;
-	
-	//用于保存点击的signinfo
+
+	// 用于保存点击的signinfo
 	private SignInfo mySignInfo;
-	
-	//用于标记是否是调用了onpause。。
+
+	// 用于标记是否是调用了onpause。。
 	private boolean isPause = false;
-	
+
 	// 用来判断是首次加载还是，到底部了加载
 	private boolean isFirst = true;
 
 	// 用于获取共享的PullToRefreshLayout pullToRefreshLayout
 	private static PullToRefreshLayout pullToRefreshLayout;
 
-	//用来显示的listview
+	// 用来显示的listview
 	private PullableListView listView;
-	
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -94,34 +94,33 @@ public class BeginSignFragment extends Fragment implements OnClickListener {
 		mTopImg = (ImageView) view.findViewById(R.id.Menu);
 		mTopMenuOne = (TextView) view.findViewById(R.id.TopMenuOne);
 		HomeNoValue = (TextView) view.findViewById(R.id.HomeNoValue);
-		
+
 		((PullToRefreshLayout) view.findViewById(R.id.refresh_view))
-		.setOnRefreshListener(new MyInnerListener());
+				.setOnRefreshListener(new MyInnerListener());
 		listView = (PullableListView) view.findViewById(R.id.content_view);
-		
-		
-		
+
 		mTopImg.setOnClickListener(this);
 
 		HomeNoValue.setVisibility(View.GONE);
 		mSignAdapter = new MySignListAdapter(ctx, list);
 		listView.setAdapter(mSignAdapter);
-		
+
 		if (Model.MYUSERINFO != null) {
 			isFirst = true;
-			//第一次，获得的基准数目是15
+			// 第一次，获得的基准数目是15
 			url = Model.GETNOTSIGNINFO + "start=" + mStart + "&student_id="
-					+ Model.MYUSERINFO.getStudent_id()+"&count="+Model.INIT_COUNT;
+					+ Model.MYUSERINFO.getStudent_id() + "&count="
+					+ Model.INIT_COUNT;
 			ThreadPoolUtils.execute(new HttpGetThread(hand, url));
 		} else {
 			// 为空的时候，直接显示请先登录
 			load_progressBar.setVisibility(View.GONE);
 			mLinearLayout.setVisibility(View.GONE);
 			HomeNoValue.setText("请先登录");
-			HomeNoValue.setVisibility(View.VISIBLE);		}
-		
-		listView.setOnItemClickListener(new MainListOnItemClickListener());
+			HomeNoValue.setVisibility(View.VISIBLE);
+		}
 
+		listView.setOnItemClickListener(new MainListOnItemClickListener());
 
 	}
 
@@ -141,7 +140,7 @@ public class BeginSignFragment extends Fragment implements OnClickListener {
 							.refreshFinish(PullToRefreshLayout.SUCCEED);
 				}
 				String result = (String) msg.obj;
-				if(result == null){
+				if (result == null) {
 					return;
 				}
 				if (isFirst == true) {
@@ -208,10 +207,8 @@ public class BeginSignFragment extends Fragment implements OnClickListener {
 					+ list.get(arg2).getAlow_sign_id() + "&student_id="
 					+ Model.MYUSERINFO.getStudent_id();
 			ThreadPoolUtils.execute(new HttpGetThread(hand1, url));
-			
+
 		}
-
-
 
 		/**
 		 * 用于处理判断是否可以签到的hander
@@ -227,8 +224,8 @@ public class BeginSignFragment extends Fragment implements OnClickListener {
 					listBottomFlag = true;
 				} else if (msg.what == 200) {
 					String result = (String) msg.obj;
-					if(result.equals("[0]")){
-						//证明还没签过到
+					if (result.equals("[0]")) {
+						// 证明还没签过到
 						Intent intent = new Intent(ctx, SignActivity.class);
 
 						Bundle bund = new Bundle();
@@ -236,51 +233,52 @@ public class BeginSignFragment extends Fragment implements OnClickListener {
 						// intent.putExtra("value", bund);
 						intent.putExtras(bund);
 						startActivity(intent);
-					}else{
-						//证明签过到
+					} else {
+						// 证明签过到
 						Toast.makeText(ctx, "抱歉，您已经签过到了。。。", 1).show();
-						
+
 					}
-					
+
 				}
 			}
 		};
 
 	}
-	
-	
+
 	@Override
 	public void onResume() {
 		super.onResume();
-		mStart=0;
+		mStart = 0;
 		HomeNoValue.setVisibility(View.GONE);
-		if(isPause == false){
+		if (isPause == false) {
 			return;
 		}
-		
-		if(list.size() != 0){
+
+		if (list.size() != 0) {
 			list.removeAll(list);
 		}
 		if (Model.MYUSERINFO != null) {
 			isFirst = true;
-			//第一次，获得的基准数目是15
+			// 第一次，获得的基准数目是15
 			url = Model.GETNOTSIGNINFO + "start=" + mStart + "&student_id="
-					+ Model.MYUSERINFO.getStudent_id()+"&count="+Model.INIT_COUNT;
+					+ Model.MYUSERINFO.getStudent_id() + "&count="
+					+ Model.INIT_COUNT;
 			ThreadPoolUtils.execute(new HttpGetThread(hand, url));
 		} else {
 			// 为空的时候，直接显示请先登录
 			load_progressBar.setVisibility(View.GONE);
 			mLinearLayout.setVisibility(View.GONE);
 			HomeNoValue.setText("请先登录");
-			HomeNoValue.setVisibility(View.VISIBLE);		}
+			HomeNoValue.setVisibility(View.VISIBLE);
+		}
 	}
-	
+
 	@Override
 	public void onPause() {
 		super.onPause();
 		isPause = true;
 	}
-	
+
 	private class MyInnerListener implements MyOnRefreshListener {
 
 		@Override
@@ -291,7 +289,8 @@ public class BeginSignFragment extends Fragment implements OnClickListener {
 			mStart = 0;
 			// 第一次，获得的个数为15，也就是init_count
 			url = Model.GETNOTSIGNINFO + "start=" + mStart + "&student_id="
-					+ Model.MYUSERINFO.getStudent_id()+"&count="+Model.INIT_COUNT;
+					+ Model.MYUSERINFO.getStudent_id() + "&count="
+					+ Model.INIT_COUNT;
 			ThreadPoolUtils.execute(new HttpGetThread(hand, url));
 		}
 
@@ -303,11 +302,10 @@ public class BeginSignFragment extends Fragment implements OnClickListener {
 			mStart = list.size();
 			// 第一次，获得的个数为15，也就是init_count
 			url = Model.GETNOTSIGNINFO + "start=" + mStart + "&student_id="
-					+ Model.MYUSERINFO.getStudent_id()+"&count="+5;
+					+ Model.MYUSERINFO.getStudent_id() + "&count=" + 5;
 			ThreadPoolUtils.execute(new HttpGetThread(hand, url));
 		}
 
 	}
-
 
 }
