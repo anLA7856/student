@@ -2,7 +2,12 @@ package csust.student.info;
 
 import java.io.Serializable;
 
-public class SignInfo implements Serializable{
+/**
+ * 
+ * @author anLA7856
+ *
+ */
+public class SignInfo implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private String sign_date;
 	private String sign_courseName;
@@ -10,7 +15,7 @@ public class SignInfo implements Serializable{
 	private String sign_teacherName;
 	// 用于保存当前sign的教师的wifimac
 	private String teacher_wifimac;
-	//吧alowsignid传过去。
+	// 吧alowsignid传过去。
 	private String alow_sign_id;
 
 	public SignInfo() {

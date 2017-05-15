@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * 用于Android端的展示每一门课的学生所有的签到情况。
  * 
- * @author U-anLA
+ * @author anLA7856
  *
  */
 public class StudentSignDetail implements Serializable {

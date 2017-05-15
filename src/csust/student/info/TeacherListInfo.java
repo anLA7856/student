@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * 用于Android端的学生端获得教师列表的
  * 
- * @author U-ANLA
+ * @author anLA7856
  *
  */
 public class TeacherListInfo implements Serializable {

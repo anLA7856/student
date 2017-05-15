@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * 用于展示学生端搜索而得的courseinfo,和Android端来对应。
  * 
- * @author U-anLA
+ * @author anLA7856
  *
  */
 public class SearchCourseInfo implements Serializable {

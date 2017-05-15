@@ -2,6 +2,11 @@ package csust.student.info;
 
 import java.io.Serializable;
 
+/**
+ * 
+ * @author anLA7856
+ *
+ */
 public class CourseInfo implements Serializable {
 	/**
 	 * 
