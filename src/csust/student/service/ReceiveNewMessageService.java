@@ -17,6 +17,12 @@ import csust.student.thread.HttpGetThread;
 import csust.student.utils.MyJson;
 import csust.student.utils.NetUtil;
 
+/**
+ * 用于在后台服务中，获取新的聊天消息
+ * 
+ * @author anLA7856
+ *
+ */
 public class ReceiveNewMessageService extends Service {
 
 	private volatile boolean isRun = false;

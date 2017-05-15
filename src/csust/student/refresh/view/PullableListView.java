@@ -6,6 +6,11 @@ import android.widget.ListView;
 import csust.student.model.Model;
 import csust.student.refresh.Pullable;
 
+/**
+ * 
+ * @author
+ *
+ */
 public class PullableListView extends ListView implements Pullable {
 
 	public PullableListView(Context context) {
@@ -46,14 +51,14 @@ public class PullableListView extends ListView implements Pullable {
 			if (getChildAt(getLastVisiblePosition() - getFirstVisiblePosition()) != null
 					&& getChildAt(
 							getLastVisiblePosition()
-									- getFirstVisiblePosition()).getBottom() <= getMeasuredHeight()){
-				if(getCount() < Model.INIT_COUNT){
+									- getFirstVisiblePosition()).getBottom() <= getMeasuredHeight()) {
+				if (getCount() < Model.INIT_COUNT) {
 					return false;
 				}
 				return true;
 			}
-				
-		} 
+
+		}
 		return false;
 	}
 }

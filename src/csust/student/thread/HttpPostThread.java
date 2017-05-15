@@ -9,29 +9,29 @@ import java.net.URL;
 
 import org.apache.http.client.ClientProtocolException;
 
-import csust.student.model.Model;
-import csust.student.net.MyPost;
-import csust.student.utils.UploadPic;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
+import csust.student.model.Model;
+import csust.student.net.MyPost;
 
 /**
  * 网络post请求的线程
- * @author U-anLA
+ * 
+ * @author anLA7856
  *
  */
-public class HttpPostThread implements Runnable{
+public class HttpPostThread implements Runnable {
 
 	private Handler hand;
 	private String url;
 	private String value;
 	private String img = "";
 	private MyPost myPost = new MyPost();
-	private String newName,uploadFile;
-	
+	private String newName, uploadFile;
+
 	/**
 	 * 构造方法，有img的
+	 * 
 	 * @param hand
 	 * @param endParamerse
 	 * @param value
@@ -45,15 +45,16 @@ public class HttpPostThread implements Runnable{
 		this.value = value;
 		this.img = img;
 	}
-	
+
 	public HttpPostThread(Handler hand, String endParamerse, String value) {
 		this.hand = hand;
 		// 拼接访问服务器完整的地址
 		url = endParamerse;
 		this.value = value;
 	}
-	
-	public HttpPostThread(Handler hand, String endParamerse, String value,String newName,String uploadFile) {
+
+	public HttpPostThread(Handler hand, String endParamerse, String value,
+			String newName, String uploadFile) {
 		this.hand = hand;
 		// 拼接访问服务器完整的地址
 		url = endParamerse;
@@ -64,44 +65,32 @@ public class HttpPostThread implements Runnable{
 
 	@Override
 	public void run() {
-		//获取我们回调主ui的message
+		// 获取我们回调主ui的message
 		Message msg = hand.obtainMessage();
 		String result = null;
-		
-		
-		
-		
-		
-		
-
 
 		try {
-			if(img.equalsIgnoreCase("")){
+			if (img.equalsIgnoreCase("")) {
 				result = myPost.doPost(url, value);
-				//Log.i("myresult", result);
+				// Log.i("myresult", result);
 				myUploadPic(Model.UPLOADPIC, newName, uploadFile);
-			}else{
-				result = myPost.doPost(url, img,value);
+			} else {
+				result = myPost.doPost(url, img, value);
 			}
 			msg.what = 200;
 			msg.obj = result;
 		} catch (ClientProtocolException e) {
 			msg.what = 404;
-		} catch(IOException e){
+		} catch (IOException e) {
 			msg.what = 100;
 		} catch (Exception e) {
 			msg.what = 404;
 		}
-		//给主ui发送信息传递数据
+		// 给主ui发送信息传递数据
 		hand.sendMessage(msg);
-		
-		
-		
-		
+
 	}
-	
-	
-	
+
 	public static void myUploadPic(String actionUrl, String newName,
 			String uploadFile) {
 
@@ -111,7 +100,7 @@ public class HttpPostThread implements Runnable{
 		String twoHyphens = "--";
 		String boundary = "*****";
 		try {
-			URL url = new URL(Model.HTTPURL+actionUrl);
+			URL url = new URL(Model.HTTPURL + actionUrl);
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
 			/* 允许Input、Output，不使用Cache */
 			con.setDoInput(true);
@@ -157,19 +146,14 @@ public class HttpPostThread implements Runnable{
 				b.append((char) ch);
 			}
 			/* 将Response显示于Dialog */
-			//showDialog(b.toString().trim());
+			// showDialog(b.toString().trim());
 			/* 关闭DataOutputStream */
 			ds.close();
-
 
 		} catch (Exception e) {
 			// showDialog("" + e);
 			e.printStackTrace();
 		}
 	}
-	
-	
-	
-	
-	
+
 }
