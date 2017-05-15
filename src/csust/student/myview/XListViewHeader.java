@@ -1,9 +1,3 @@
-/**
- *BLOG:http://blog.sina.com.cn/cuil11
- * @date: 2015年7月3日 下午4:40:54
- * QQ2050542273
- * @email:15162925211@163.com
- */
 package csust.student.myview;
 
 import android.content.Context;
@@ -19,7 +13,11 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import csust.student.activity.R;
 
-
+/**
+ * 
+ * @author
+ *
+ */
 public class XListViewHeader extends LinearLayout {
 	private LinearLayout mContainer;
 	private ImageView mArrowImageView;
