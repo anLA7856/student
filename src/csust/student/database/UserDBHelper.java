@@ -4,8 +4,14 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-public class UserDBHelper extends SQLiteOpenHelper{
+/**
+ * 
+ * @author
+ *
+ */
+public class UserDBHelper extends SQLiteOpenHelper {
 	public static final String USER_DBNAME = "user.db";
+
 	public UserDBHelper(Context context) {
 		super(context, USER_DBNAME, null, 1);
 	}

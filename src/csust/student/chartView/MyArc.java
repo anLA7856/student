@@ -1,7 +1,5 @@
 package csust.student.chartView;
 
-
-import csust.student.activity.R;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Canvas;
@@ -12,13 +10,15 @@ import android.graphics.RectF;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.view.ViewTreeObserver.OnPreDrawListener;
+import csust.student.activity.R;
 
 /**
  * 圆弧计分
- * @author Administrator
+ * 
+ * @author 
  *
  */
-public class MyArc extends View { 
+public class MyArc extends View {
 
 	private Paint paint_black, paint_white;
 	private RectF rectf;
@@ -48,7 +48,7 @@ public class MyArc extends View {
 		paint_white = new Paint();
 		paint_white.setAntiAlias(true);
 		paint_white.setColor(whiteColor);
-		paint_white.setTextSize(tb*6.0f);
+		paint_white.setTextSize(tb * 6.0f);
 		paint_white.setStrokeWidth(tb * 0.2f);
 		paint_white.setTextAlign(Align.CENTER);
 		paint_white.setStyle(Style.STROKE);
@@ -68,12 +68,11 @@ public class MyArc extends View {
 				});
 	}
 
-	
 	protected void onDraw(Canvas c) {
 		super.onDraw(c);
 		c.drawArc(rectf, -90, 360, false, paint_black);
 		c.drawArc(rectf, -90, arc_y, false, paint_white);
-		c.drawText("" + score_text+"%", tb * 9.7f, tb * 11.0f, paint_white);
+		c.drawText("" + score_text + "%", tb * 9.7f, tb * 11.0f, paint_white);
 	}
 
 	class thread implements Runnable {
@@ -94,7 +93,7 @@ public class MyArc extends View {
 						Thread.sleep(200);
 						statek = 1;
 					} catch (InterruptedException e) {
-						
+
 					}
 					break;
 				case 1:
