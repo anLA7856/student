@@ -1,6 +1,5 @@
 package csust.student.net;
 
-
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -15,7 +14,10 @@ import org.apache.http.params.HttpParams;
 
 /**
  * 下载服务器网络图片
- * */
+ * 
+ * @author anLA7856
+ *
+ */
 public class DownBitmap {
 
 	private DownBitmap() {
@@ -25,6 +27,7 @@ public class DownBitmap {
 
 	/**
 	 * 单例模式来加载！
+	 * 
 	 * @return
 	 */
 	public static synchronized DownBitmap getInstance() {
@@ -35,6 +38,7 @@ public class DownBitmap {
 
 	/**
 	 * 获取网络图片下载时返回的流,通过url来下载！
+	 * 
 	 * @param Biturl
 	 * @return
 	 */

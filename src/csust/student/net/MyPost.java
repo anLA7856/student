@@ -1,13 +1,10 @@
 package csust.student.net;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
@@ -19,9 +16,15 @@ import org.apache.http.util.EntityUtils;
 import android.util.Log;
 import csust.student.model.Model;
 
+/**
+ * 模拟post方法
+ * 
+ * @author anLA7856
+ *
+ */
 public class MyPost {
 
-	public String doPost(String url,String img,String value){
+	public String doPost(String url, String img, String value) {
 		String result = null;
 		HttpResponse httpResponse = null;
 		HttpPost post = new HttpPost(Model.HTTPURL + url);
@@ -34,7 +37,7 @@ public class MyPost {
 		// Json字符串拼接
 		nameValuePairs.add(new BasicNameValuePair("value", value));
 		nameValuePairs.add(new BasicNameValuePair("img", img));
-		
+
 		try {
 			post.setEntity(new UrlEncodedFormEntity(nameValuePairs, "utf-8"));
 			httpResponse = client.execute(post);
@@ -49,12 +52,11 @@ public class MyPost {
 		} catch (Exception e) {
 			result = null;
 		}
-		
-		
+
 		return result;
 	}
-	
-	public String doPost(String url, String value) throws Exception{
+
+	public String doPost(String url, String value) throws Exception {
 		String result = null;
 		HttpResponse httpResponse = null;
 		HttpPost post = new HttpPost(Model.HTTPURL + url);
@@ -68,20 +70,17 @@ public class MyPost {
 		// Json字符串拼接
 		nameValuePairs.add(new BasicNameValuePair("value", value));
 
-			post.setEntity(new UrlEncodedFormEntity(nameValuePairs, "utf-8"));
-			httpResponse = client.execute(post);
-//			Log.e("HTTP", "CODE" + httpResponse.getStatusLine().getStatusCode());
-			if (httpResponse.getStatusLine().getStatusCode() == 200) {
-				result = EntityUtils
-						.toString(httpResponse.getEntity(), "utf-8");
-				Log.e("HTTP", "result:" + result);
-			} else {
-				result = null;
-			}		
-			
+		post.setEntity(new UrlEncodedFormEntity(nameValuePairs, "utf-8"));
+		httpResponse = client.execute(post);
+		// Log.e("HTTP", "CODE" + httpResponse.getStatusLine().getStatusCode());
+		if (httpResponse.getStatusLine().getStatusCode() == 200) {
+			result = EntityUtils.toString(httpResponse.getEntity(), "utf-8");
+			Log.e("HTTP", "result:" + result);
+		} else {
+			result = null;
+		}
 
 		return result;
 	}
-	
-	
+
 }

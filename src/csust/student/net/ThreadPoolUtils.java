@@ -10,8 +10,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * 我们网络请求线程池:限制并行的网络请求线程。
- * */
-
+ * 
+ * @author U-ANLA
+ *
+ */
 public class ThreadPoolUtils {
 
 	private ThreadPoolUtils() {
