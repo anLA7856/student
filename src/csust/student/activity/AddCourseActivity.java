@@ -38,7 +38,7 @@ import csust.student.utils.MyJson;
 /**
  * 用于添加课程的
  * 
- * @author U-ANLA
+ * @author anLA7856
  *
  */
 public class AddCourseActivity extends Activity implements OnClickListener {

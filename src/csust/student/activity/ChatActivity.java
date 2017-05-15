@@ -41,11 +41,11 @@ import csust.student.utils.L;
 /**
  * 聊天的主界面
  * 
- * @author U-ANLA
+ * @author anLA7856
  *
  */
-public class ChatActivity extends Activity implements OnClickListener, OnTouchListener, IXListViewListener,
-		OnHomePressedListener {
+public class ChatActivity extends Activity implements OnClickListener,
+		OnTouchListener, IXListViewListener, OnHomePressedListener {
 
 	public static final int NEW_MESSAGE = 0x001;// 收到消息
 	public static int MSGPAGERNUM;
@@ -70,13 +70,9 @@ public class ChatActivity extends Activity implements OnClickListener, OnTouchLi
 
 	private HomeWatcher mHomeWatcher;// home键
 
-	
-	
-	//用于接收上个界面传来的teacherid
+	// 用于接收上个界面传来的teacherid
 	private String teacherId;
 
-	
-	
 	public static MessageAdapter getAdapter() {
 		return adapter;
 	}
@@ -88,10 +84,6 @@ public class ChatActivity extends Activity implements OnClickListener, OnTouchLi
 	public void setTeacherId(String teacherId) {
 		this.teacherId = teacherId;
 	}
-
-
-
-
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -105,24 +97,22 @@ public class ChatActivity extends Activity implements OnClickListener, OnTouchLi
 
 		teacherId = bundle.getSerializable("teacherId").toString();
 		mInputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-		//mSpUtil = PushApplication.getInstance().getSpUtil();
+		// mSpUtil = PushApplication.getInstance().getSpUtil();
 
 		MSGPAGERNUM = 0;
-		//进入的时候保存句柄。
+		// 进入的时候保存句柄。
 		Model.MYCHATACTIVITY = this;
 
 		initView();
 
-
-		
 		initUserInfo();
 
 	}
-	
+
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		//退出的时候，将句柄清空
+		// 退出的时候，将句柄清空
 		Model.MYCHATACTIVITY = null;
 	}
 
@@ -147,7 +137,7 @@ public class ChatActivity extends Activity implements OnClickListener, OnTouchLi
 		// 消息
 		mMsgDB = mApplication.getMessageDB();// 发送数据库
 		mRecentDB = mApplication.getRecentDB();// 接收消息数据库
-//		mGson = mApplication.getGson();
+		// mGson = mApplication.getGson();
 
 		adapter = new MessageAdapter(this, initMsgData());
 		mMsgListView = (MsgListView) findViewById(R.id.msg_listView);
@@ -214,7 +204,7 @@ public class ChatActivity extends Activity implements OnClickListener, OnTouchLi
 		mHomeWatcher = new HomeWatcher(this);
 		mHomeWatcher.setOnHomePressedListener(this);
 		mHomeWatcher.startWatch();
-		//PushMessageReceiver.ehList.add(this);// 监听推送的消息
+		// PushMessageReceiver.ehList.add(this);// 监听推送的消息
 
 	}
 
@@ -226,7 +216,7 @@ public class ChatActivity extends Activity implements OnClickListener, OnTouchLi
 		super.onPause();
 		mHomeWatcher.setOnHomePressedListener(null);
 		mHomeWatcher.stopWatch();
-		//PushMessageReceiver.ehList.remove(this);// 移除监听
+		// PushMessageReceiver.ehList.remove(this);// 移除监听
 	}
 
 	public static MessageAdapter getMessageAdapter() {
@@ -237,8 +227,8 @@ public class ChatActivity extends Activity implements OnClickListener, OnTouchLi
 	 * 加载消息历史，从数据库中读出
 	 */
 	private List<ChatMessage> initMsgData() {
-		List<ChatMessage> list = mMsgDB
-				.getMsg(Model.MYUSERINFO.getStudent_id()+"",teacherId, MSGPAGERNUM);
+		List<ChatMessage> list = mMsgDB.getMsg(Model.MYUSERINFO.getStudent_id()
+				+ "", teacherId, MSGPAGERNUM);
 		List<ChatMessage> msgList = new ArrayList<ChatMessage>();// 消息对象数组
 		if (list.size() > 0) {
 			for (ChatMessage entity : list) {
@@ -246,7 +236,7 @@ public class ChatActivity extends Activity implements OnClickListener, OnTouchLi
 					entity.setName(defaulgUserName);
 				}
 				if (entity.getHeadPic().equals("")) {
-					entity.setHeadPic(defaultCount+"");
+					entity.setHeadPic(defaultCount + "");
 				}
 				msgList.add(entity);
 			}
@@ -262,27 +252,27 @@ public class ChatActivity extends Activity implements OnClickListener, OnTouchLi
 		case R.id.send_btn: {
 			// 发送消息
 			String msg = mEtMsg.getText().toString();
-			ChatMessage item = new ChatMessage(0, Model.MYUSERINFO.getStudent_id(), Integer.parseInt(teacherId), msg,
-					System.currentTimeMillis()+"", 1, 2+"", Model.MYUSERINFO.getStudent_name(), "");
-			
-			
+			ChatMessage item = new ChatMessage(0,
+					Model.MYUSERINFO.getStudent_id(),
+					Integer.parseInt(teacherId), msg,
+					System.currentTimeMillis() + "", 1, 2 + "",
+					Model.MYUSERINFO.getStudent_name(), "");
+
 			adapter.upDateMsg(item);
 			mMsgListView.setSelection(adapter.getCount() - 1);
-			mMsgDB.saveMsg(Model.MYUSERINFO.getStudent_id()+"", item);// 消息保存数据库
+			mMsgDB.saveMsg(Model.MYUSERINFO.getStudent_id() + "", item);// 消息保存数据库
 			mEtMsg.setText("");
 
-			//发送信息。通过线程池。
-			
-			String url = Model.STUCHATMESSAGEADD + "studentId=" + Model.MYUSERINFO.getStudent_id()+"&teacherId="+teacherId+"&message="+msg;
-			
+			// 发送信息。通过线程池。
+
+			String url = Model.STUCHATMESSAGEADD + "studentId="
+					+ Model.MYUSERINFO.getStudent_id() + "&teacherId="
+					+ teacherId + "&message=" + msg;
+
 			ThreadPoolUtils.execute(new HttpGetThread(hand2, url));
-			
-			
-			
-			RecentItem recentItem = new RecentItem(
-					1, teacherId,
-					defaultCount, defaulgUserName, msg, 0,
-					System.currentTimeMillis(), 0);
+
+			RecentItem recentItem = new RecentItem(1, teacherId, defaultCount,
+					defaulgUserName, msg, 0, System.currentTimeMillis(), 0);
 			mRecentDB.saveRecent(recentItem);
 			break;
 		}
@@ -318,8 +308,6 @@ public class ChatActivity extends Activity implements OnClickListener, OnTouchLi
 			}
 		};
 	}
-
-
 
 	@SuppressLint("ClickableViewAccessibility")
 	@Override
@@ -368,8 +356,8 @@ public class ChatActivity extends Activity implements OnClickListener, OnTouchLi
 	public void onHomeLongPressed() {
 
 	}
-	
-	Handler hand2 = new Handler(){
+
+	Handler hand2 = new Handler() {
 		public void handleMessage(Message msg) {
 			super.handleMessage(msg);
 			if (msg.what == 404) {
@@ -379,15 +367,15 @@ public class ChatActivity extends Activity implements OnClickListener, OnTouchLi
 			} else if (msg.what == 200) {
 				// 正常的处理逻辑。
 				String result = (String) msg.obj;
-				if(result.equals("1")){
-					//发送成功界面
+				if (result.equals("1")) {
+					// 发送成功界面
 					Toast.makeText(ChatActivity.this, "发送成功", 1).show();
-				}else{
-					//发送失败的逻辑
-					
+				} else {
+					// 发送失败的逻辑
+
 					Toast.makeText(ChatActivity.this, "发送失败", 1).show();
 				}
-				
+
 			}
 		};
 	};

@@ -26,17 +26,21 @@ import csust.student.info.ChatMessage;
 import csust.student.info.UserInfo;
 import csust.student.model.Model;
 import csust.student.net.ThreadPoolUtils;
-import csust.student.service.ReceiveNewMessageService;
 import csust.student.thread.HttpGetThread;
 import csust.student.thread.HttpPostThread;
 import csust.student.utils.MyJson;
 
+/**
+ * 
+ * @author anLA7856
+ *
+ */
 public class LoginActivity extends Activity implements OnClickListener {
 
 	private ImageView mClose;
 	private RelativeLayout mWeibo, mQQ;
 	private Button mLogin;
-	
+
 	private EditText mName, mPassword;
 	private TextView mRegister;
 	private String NameValue = null;
@@ -47,7 +51,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 
 	// 定义进度匡
 	private ProgressDialog mProDialog;
-	
+
 	private MessageDB messageDB = null;
 
 	@Override
@@ -63,13 +67,13 @@ public class LoginActivity extends Activity implements OnClickListener {
 		mProDialog = new ProgressDialog(this);
 		mProDialog.setCancelable(true);
 		mClose = (ImageView) findViewById(R.id.loginClose);
-		//mLogin = (RelativeLayout) findViewById(R.id.login);
+		// mLogin = (RelativeLayout) findViewById(R.id.login);
 		mLogin = (Button) findViewById(R.id.Ledit_login);
-		
+
 		mWeibo = (RelativeLayout) findViewById(R.id.button_weibo);
 		mQQ = (RelativeLayout) findViewById(R.id.buton_qq);
 		mName = (EditText) findViewById(R.id.Ledit_name);
-		
+
 		mPassword = (EditText) findViewById(R.id.Ledit_password);
 		mRegister = (TextView) findViewById(R.id.register);
 		mClose.setOnClickListener(this);
@@ -85,7 +89,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 		int mId = v.getId();
 		switch (mId) {
 		case R.id.loginClose:
-			//finish();
+			// finish();
 			break;
 		case R.id.Ledit_login:
 			NameValue = mName.getText().toString();
@@ -101,8 +105,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 				Toast.makeText(LoginActivity.this, "密码错误", 1).show();
 				return;
 			} else if (!NameValue.matches("[a-zA-Z0-9]{5,12}")) {
-				Toast.makeText(LoginActivity.this, "用户名错误", 1)
-						.show();
+				Toast.makeText(LoginActivity.this, "用户名错误", 1).show();
 				return;
 			} else {
 				// 登录接口
@@ -155,16 +158,16 @@ public class LoginActivity extends Activity implements OnClickListener {
 					Toast.makeText(LoginActivity.this, "密码错误", 1).show();
 					return;
 				} else if (result != null) {
-					
-					
+
 					Toast.makeText(LoginActivity.this, "登录成功", 1).show();
 					List<UserInfo> newList = myJson.getUserInfoList(result);
 					if (newList != null) {
 						Model.MYUSERINFO = newList.get(0);
 					}
-					//获取聊天数据
-					String url1 = Model.STUGETALLCHATMESSAGE + "studentId="+Model.MYUSERINFO.getStudent_id();
-					
+					// 获取聊天数据
+					String url1 = Model.STUGETALLCHATMESSAGE + "studentId="
+							+ Model.MYUSERINFO.getStudent_id();
+
 					ThreadPoolUtils.execute(new HttpGetThread(hand1, url1));
 					//
 					Intent intent = new Intent(LoginActivity.this,
@@ -180,9 +183,6 @@ public class LoginActivity extends Activity implements OnClickListener {
 					mSettinsEd.putString("UserInfoJson", result);
 					// 提交保存
 					mSettinsEd.commit();
-					
-					
-					
 
 					finish();
 				}
@@ -241,10 +241,11 @@ public class LoginActivity extends Activity implements OnClickListener {
 			} else if (msg.what == 200) {
 				String result = (String) msg.obj;
 				// Log.e("loginInfo", result);
-				//从服务器把所有获得了的聊天信息都保存下来。
+				// 从服务器把所有获得了的聊天信息都保存下来。
 				List<ChatMessage> list = myJson.getChatMessageList(result);
-				for(int i = 0;i < list.size();i++){
-					messageDB.saveMsg(Model.MYUSERINFO.getStudent_id()+"", list.get(i));
+				for (int i = 0; i < list.size(); i++) {
+					messageDB.saveMsg(Model.MYUSERINFO.getStudent_id() + "",
+							list.get(i));
 				}
 			}
 		};

@@ -7,7 +7,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
-import android.content.DialogInterface.OnCancelListener;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -18,6 +17,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 import csust.student.model.Model;
 
+/**
+ * 
+ * @author anLA7856
+ *
+ */
 public class SettingActivity extends Activity implements OnClickListener{
 	
 	private ImageView mClose;

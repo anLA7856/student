@@ -39,7 +39,6 @@ import csust.student.info.UserInfo;
 import csust.student.model.Model;
 import csust.student.myview.MyDetailsListView;
 import csust.student.net.ThreadPoolUtils;
-import csust.student.service.ReceiveNewMessageService;
 import csust.student.thread.HttpGetThread;
 import csust.student.utils.CharacterUtil;
 import csust.student.utils.LoadImg;
@@ -47,7 +46,11 @@ import csust.student.utils.LoadImg.ImageDownloadCallBack;
 import csust.student.utils.MyJson;
 
 
-
+/**
+ * 
+ * @author anLA7856
+ *
+ */
 public class UserInfoActivity extends Activity implements OnClickListener {
 	private UserInfo info = null;
 	private ImageView mUserCamera;

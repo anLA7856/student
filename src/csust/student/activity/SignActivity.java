@@ -9,7 +9,6 @@ import java.util.List;
 import org.json.JSONObject;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.DialogInterface;
@@ -50,6 +49,11 @@ import csust.student.thread.HttpGetThread;
 import csust.student.utils.FaceUtil;
 import csust.student.utils.WifiAdmin;
 
+/**
+ * 
+ * @author anLA7856
+ *
+ */
 public class SignActivity extends Activity implements OnClickListener {
 
 	private final int REQUEST_PICTURE_CHOOSE = 1;

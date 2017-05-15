@@ -18,7 +18,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 import csust.student.adapter.MySignDetailItemAdapter;
 import csust.student.chartView.MyArc;
-import csust.student.fragment.TeacherFragment;
 import csust.student.info.CourseInfo;
 import csust.student.info.StudentSignDetail;
 import csust.student.model.Model;
@@ -32,7 +31,7 @@ import csust.student.utils.MyJson;
 /**
  * 课程的详细信息，自己这门课的详细信息。
  * 
- * @author U-anLA
+ * @author anLA7856
  *
  */
 public class CourseDetailActivity extends Activity implements OnClickListener {
@@ -71,8 +70,8 @@ public class CourseDetailActivity extends Activity implements OnClickListener {
 
 	// 用于获取共享的PullToRefreshLayout pullToRefreshLayout
 	private static PullToRefreshLayout pullToRefreshLayout;
-	
-	//定义起始地点
+
+	// 定义起始地点
 	private int mStart = 0;
 
 	@Override
@@ -111,12 +110,10 @@ public class CourseDetailActivity extends Activity implements OnClickListener {
 		mDetailTitle = (RelativeLayout) findViewById(R.id.course_sign_detail_title);
 
 		((PullToRefreshLayout) findViewById(R.id.refresh_view))
-		.setOnRefreshListener(new MyInnerListener());
-		listView = (PullableListView)findViewById(R.id.content_view);
+				.setOnRefreshListener(new MyInnerListener());
+		listView = (PullableListView) findViewById(R.id.content_view);
 
-		
 		mClose.setOnClickListener(this);
-
 
 		// 拼接获取总签到率的url
 		urlRate = Model.GETCOURSETOTALSIGNRATE + "student_id="
@@ -127,7 +124,8 @@ public class CourseDetailActivity extends Activity implements OnClickListener {
 		// 拼接获取每次签到列表状态的列表的url
 		urlSignListUrl = Model.GETSIGNINFOLISTOFCOURSE + "student_id="
 				+ Model.MYUSERINFO.getStudent_id() + "&course_id="
-				+ myCourseInfo.getCourse_id()+"&start="+mStart+"&count="+Model.INIT_COUNT;
+				+ myCourseInfo.getCourse_id() + "&start=" + mStart + "&count="
+				+ Model.INIT_COUNT;
 		ThreadPoolUtils.execute(new HttpGetThread(hand2, urlSignListUrl));
 		listView.setAdapter(myAdapter);
 	}
@@ -200,7 +198,8 @@ public class CourseDetailActivity extends Activity implements OnClickListener {
 						list.removeAll(list);
 					}
 				}
-				List<StudentSignDetail> newList = myJson.getStudentSignDetailInfoList(result);
+				List<StudentSignDetail> newList = myJson
+						.getStudentSignDetailInfoList(result);
 				if (newList.size() != 0) {
 
 					for (StudentSignDetail t : newList) {
@@ -209,7 +208,8 @@ public class CourseDetailActivity extends Activity implements OnClickListener {
 					mLinearLayout.setVisibility(View.VISIBLE);
 
 				} else {
-					Toast.makeText(CourseDetailActivity.this, "已经没有了。。", 1).show();
+					Toast.makeText(CourseDetailActivity.this, "已经没有了。。", 1)
+							.show();
 					if (list.size() == 0) {
 						mLinearLayout.setVisibility(View.GONE);
 						HomeNoValue.setText("暂时没有签到情况");
@@ -227,8 +227,6 @@ public class CourseDetailActivity extends Activity implements OnClickListener {
 		};
 	};
 
-	
-	
 	private class MyInnerListener implements MyOnRefreshListener {
 
 		@Override
@@ -240,7 +238,8 @@ public class CourseDetailActivity extends Activity implements OnClickListener {
 			// 第一次，获得的个数为15，也就是init_count
 			urlSignListUrl = Model.GETSIGNINFOLISTOFCOURSE + "student_id="
 					+ Model.MYUSERINFO.getStudent_id() + "&course_id="
-					+ myCourseInfo.getCourse_id()+"&start="+mStart+"&count="+Model.INIT_COUNT;
+					+ myCourseInfo.getCourse_id() + "&start=" + mStart
+					+ "&count=" + Model.INIT_COUNT;
 			ThreadPoolUtils.execute(new HttpGetThread(hand2, urlSignListUrl));
 		}
 
@@ -253,7 +252,8 @@ public class CourseDetailActivity extends Activity implements OnClickListener {
 			// 第一次，获得的个数为15，也就是init_count
 			urlSignListUrl = Model.GETSIGNINFOLISTOFCOURSE + "student_id="
 					+ Model.MYUSERINFO.getStudent_id() + "&course_id="
-					+ myCourseInfo.getCourse_id()+"&start="+mStart+"&count="+5;
+					+ myCourseInfo.getCourse_id() + "&start=" + mStart
+					+ "&count=" + 5;
 			ThreadPoolUtils.execute(new HttpGetThread(hand2, urlSignListUrl));
 		}
 

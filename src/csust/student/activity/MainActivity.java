@@ -4,31 +4,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
-
-
-
-
-
-
-
-
-import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
-import com.jeremyfeinstein.slidingmenu.lib.app.SlidingFragmentActivity;
-
-import csust.student.fragment.BeginSignFragment;
-import csust.student.fragment.CourseFragment;
-import csust.student.fragment.BeginSignFragment.BeginSignFragmentCallBack;
-import csust.student.fragment.CourseFragment.CourseFragmentCallBack;
-import csust.student.fragment.TeacherFragment;
-import csust.student.fragment.TeacherFragment.TeacherFragmentCallBack;
-import csust.student.info.UserInfo;
-import csust.student.model.Model;
-import csust.student.utils.MyJson;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.sip.SipRegistrationListener;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -45,6 +22,24 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
+import com.jeremyfeinstein.slidingmenu.lib.app.SlidingFragmentActivity;
+
+import csust.student.fragment.BeginSignFragment;
+import csust.student.fragment.BeginSignFragment.BeginSignFragmentCallBack;
+import csust.student.fragment.CourseFragment;
+import csust.student.fragment.CourseFragment.CourseFragmentCallBack;
+import csust.student.fragment.TeacherFragment;
+import csust.student.fragment.TeacherFragment.TeacherFragmentCallBack;
+import csust.student.info.UserInfo;
+import csust.student.model.Model;
+import csust.student.utils.MyJson;
+
+/**
+ * 
+ * @author anLA7856
+ *
+ */
 public class MainActivity extends SlidingFragmentActivity implements
 		OnClickListener {
 

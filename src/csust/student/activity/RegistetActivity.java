@@ -47,6 +47,11 @@ import csust.student.thread.HttpPostThread;
 import csust.student.utils.CharacterUtil;
 import csust.student.utils.FaceUtil;
 
+/**
+ * 
+ * @author anLA7856
+ *
+ */
 public class RegistetActivity extends Activity implements OnClickListener {
 
 	private final int REQUEST_PICTURE_CHOOSE = 1;
