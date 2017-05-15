@@ -2,19 +2,20 @@ package csust.student.adapter;
 
 import java.util.List;
 
-import csust.student.activity.R;
-import csust.student.info.SignInfo;
-import csust.student.model.Model;
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
+import csust.student.activity.R;
+import csust.student.info.SignInfo;
 
+/**
+ * 
+ * @author anLA7856
+ *
+ */
 public class MySignListAdapter extends BaseAdapter {
 
 	private List<SignInfo> list;
@@ -64,10 +65,12 @@ public class MySignListAdapter extends BaseAdapter {
 			hold = (SignHolder) convertView.getTag();
 		}
 
-		hold.courseNum.setText("课程号:"+list.get(position).getSign_courseNum());
-		hold.signDate.setText("签到日期:"+list.get(position).getSign_date());
-		hold.teacherName.setText("教师名:"+list.get(position).getSign_teacherName());
-		hold.courseName.setText("课程名:"+list.get(position).getSign_courseName());
+		hold.courseNum.setText("课程号:" + list.get(position).getSign_courseNum());
+		hold.signDate.setText("签到日期:" + list.get(position).getSign_date());
+		hold.teacherName.setText("教师名:"
+				+ list.get(position).getSign_teacherName());
+		hold.courseName.setText("课程名:"
+				+ list.get(position).getSign_courseName());
 		// 设置监听
 		// 在beginsignfragment中设置监听。
 		// hold.mLinearLayout.setOnClickListener(new View.OnClickListener() {

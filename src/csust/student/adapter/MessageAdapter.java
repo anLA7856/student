@@ -23,9 +23,7 @@ import csust.student.utils.SharePreferenceUtil;
 import csust.student.utils.TimeUtil;
 
 /**
- * @desc发送消息的adapter
- * @date: 2015年7月3日 下午4:40:54 QQ2050542273
- * @email:15162925211@163.com
+ * @author
  */
 @SuppressLint("NewApi")
 public class MessageAdapter extends BaseAdapter {
@@ -45,12 +43,11 @@ public class MessageAdapter extends BaseAdapter {
 
 	private long mPreDate;
 
-
 	public MessageAdapter(Context context, List<ChatMessage> msgList) {
 		this.mContext = context;
 		mMsgList = msgList;
 		mInflater = LayoutInflater.from(context);
-		//mSpUtil = PushApplication.getInstance().getSpUtil();
+		// mSpUtil = PushApplication.getInstance().getSpUtil();
 	}
 
 	public void removeHeadMsg() {
@@ -112,11 +109,10 @@ public class MessageAdapter extends BaseAdapter {
 				fillTextMessageHolder((TextMessageHolder) holder, convertView);
 				break;
 			}
-		
+
 			case MESSAGE_TYPE_OTHER_TEXT: {
-				convertView = mInflater
-						.inflate(R.layout.chat_other_text_message_item,
-								parent, false);
+				convertView = mInflater.inflate(
+						R.layout.chat_other_text_message_item, parent, false);
 				holder = new TextMessageHolder();
 				convertView.setTag(holder);
 				fillTextMessageHolder((TextMessageHolder) holder, convertView);
@@ -148,21 +144,19 @@ public class MessageAdapter extends BaseAdapter {
 
 	}
 
-
-
 	private void handleBaseMessage(MessageHolderBase holder,
 			final ChatMessage mItem) {
-		holder.time.setText(TimeUtil.getChatTime(Long.parseLong(mItem.getChatTime())));
+		holder.time.setText(TimeUtil.getChatTime(Long.parseLong(mItem
+				.getChatTime())));
 		holder.time.setVisibility(View.VISIBLE);
-//		holder.head.setBackgroundResource(PushApplication.heads[mItem
-//				.getHeadImg()]);
+		// holder.head.setBackgroundResource(PushApplication.heads[mItem
+		// .getHeadImg()]);
 
 		holder.progressBar.setVisibility(View.GONE);
 		holder.progressBar.setProgress(50);
 
 		holder.time.setVisibility(View.VISIBLE);
 		//
-
 
 	}
 
@@ -189,10 +183,6 @@ public class MessageAdapter extends BaseAdapter {
 		holder.msg = (GifTextView) convertView.findViewById(R.id.textView2);
 	}
 
-
-
-
-
 	private static class MessageHolderBase {
 		ImageView head;
 		TextView time;
@@ -208,10 +198,6 @@ public class MessageAdapter extends BaseAdapter {
 		 */
 		GifTextView msg;
 	}
-
-
-
-
 
 	/**
 	 * 另外一种方法解析表情将[表情]换成fxxx
@@ -231,12 +217,13 @@ public class MessageAdapter extends BaseAdapter {
 		Matcher localMatcher = EMOTION_URL.matcher(hackTxt);
 		while (localMatcher.find()) {
 			String str2 = localMatcher.group(0);
-//			if (PushApplication.getInstance().getFaceMap().containsKey(str2)) {
-//				String faceName = mContext.getResources().getString(
-//						PushApplication.getInstance().getFaceMap().get(str2));
-//				CharSequence name = options(faceName);
-//				message = message.replace(str2, name);
-//			}
+			// if (PushApplication.getInstance().getFaceMap().containsKey(str2))
+			// {
+			// String faceName = mContext.getResources().getString(
+			// PushApplication.getInstance().getFaceMap().get(str2));
+			// CharSequence name = options(faceName);
+			// message = message.replace(str2, name);
+			// }
 
 		}
 		return message;
@@ -276,7 +263,7 @@ public class MessageAdapter extends BaseAdapter {
 
 			ChatMessage item = mMsgList.get(position);
 			if (item != null) {
-				boolean comMeg = item.getIsCome().equals("1")? true:false;
+				boolean comMeg = item.getIsCome().equals("1") ? true : false;
 				if (comMeg) {
 					// 接受的消息
 					return MESSAGE_TYPE_OTHER_TEXT;

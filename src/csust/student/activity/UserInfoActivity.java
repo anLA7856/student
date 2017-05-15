@@ -45,7 +45,6 @@ import csust.student.utils.LoadImg;
 import csust.student.utils.LoadImg.ImageDownloadCallBack;
 import csust.student.utils.MyJson;
 
-
 /**
  * 
  * @author anLA7856
@@ -76,15 +75,13 @@ public class UserInfoActivity extends Activity implements OnClickListener {
 	private RelativeLayout Detail_CommentsNum;
 	private ProgressDialog mProDialog;
 
-	//定义alertdialog
+	// 定义alertdialog
 	private AlertDialog mAlertPassword;
-	
-	
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 		// requestWindowFeature(Window.FEATURE_NO_TITLE);
 		requestWindowFeature(Window.FEATURE_ACTION_BAR);
 
@@ -216,10 +213,9 @@ public class UserInfoActivity extends Activity implements OnClickListener {
 										Editor editor = sp.edit();
 										editor.clear();
 										editor.commit();
-										//将聊天数据库记录全部清除。,不用删除，因为聊天记录是以.id命名的，
-										//所以在保存聊天记录方面可能会有点冗余，反正在手机端
-										
-										
+										// 将聊天数据库记录全部清除。,不用删除，因为聊天记录是以.id命名的，
+										// 所以在保存聊天记录方面可能会有点冗余，反正在手机端
+
 										Intent intent = new Intent(
 												UserInfoActivity.this,
 												LoginActivity.class);
@@ -479,8 +475,8 @@ public class UserInfoActivity extends Activity implements OnClickListener {
 		mAlertPassword.show();
 
 	}
-	
-	Handler hand1 = new Handler(){
+
+	Handler hand1 = new Handler() {
 		public void handleMessage(android.os.Message msg) {
 			if (msg.what == 404) {
 				Toast.makeText(UserInfoActivity.this, "找不到服务器地址", 1).show();
@@ -490,30 +486,30 @@ public class UserInfoActivity extends Activity implements OnClickListener {
 				mProDialog.dismiss();
 			} else if (msg.what == 200) {
 				mProDialog.dismiss();
-				String result = (String)msg.obj;
-				if(result.equals("[1]")){
-					//修改成功！
-					
-					Toast.makeText(UserInfoActivity.this, "密码修改成功，请用新密码登录！", 1).show();
+				String result = (String) msg.obj;
+				if (result.equals("[1]")) {
+					// 修改成功！
+
+					Toast.makeText(UserInfoActivity.this, "密码修改成功，请用新密码登录！", 1)
+							.show();
 					myLogout();
-				}else{
-					//修改失败！
+				} else {
+					// 修改失败！
 					Toast.makeText(UserInfoActivity.this, "修改密码失败！", 1).show();
-					
+
 				}
 			}
 		}
 
 		private void myLogout() {
 			Model.MYUSERINFO = null;
-			SharedPreferences sp = getSharedPreferences(
-					"UserInfo", MODE_PRIVATE);
+			SharedPreferences sp = getSharedPreferences("UserInfo",
+					MODE_PRIVATE);
 			Editor editor = sp.edit();
 			editor.clear();
 			editor.commit();
 
-			Intent intent = new Intent(
-					UserInfoActivity.this,
+			Intent intent = new Intent(UserInfoActivity.this,
 					LoginActivity.class);
 			startActivity(intent);
 			finish();

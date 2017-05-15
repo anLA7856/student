@@ -7,13 +7,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import csust.student.activity.R;
-import csust.student.adapter.MySignListAdapter.SignHolder;
-import csust.student.info.SignInfo;
 import csust.student.info.TeacherListInfo;
 
+/**
+ * 
+ * @author anLA7856
+ *
+ */
 public class MyTeacherListAdapter extends BaseAdapter {
 	private List<TeacherListInfo> list;
 	private Context ctx;

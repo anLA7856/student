@@ -22,26 +22,22 @@ import csust.student.model.Model;
  * @author anLA7856
  *
  */
-public class SettingActivity extends Activity implements OnClickListener{
-	
+public class SettingActivity extends Activity implements OnClickListener {
+
 	private ImageView mClose;
-	private RelativeLayout mRemoveCach,mAdvice,mNewEdition,mAbout;
+	private RelativeLayout mRemoveCach, mAdvice, mNewEdition, mAbout;
 	private CheckBox mNotice;
 	private TextView mCach;
-	
+
 	private String cahePath = null;
-    private ProgressDialog mProDialog;
-	
-    
-	
+	private ProgressDialog mProDialog;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.setting);
 		init();
 	}
-
-
 
 	private void init() {
 		cahePath = Model.LOCALSTORAGE;
@@ -52,25 +48,22 @@ public class SettingActivity extends Activity implements OnClickListener{
 		mAbout = (RelativeLayout) findViewById(R.id.setting_guanyuqiubai);
 		mNotice = (CheckBox) findViewById(R.id.setting_tongzhi_checkbox);
 		mCach = (TextView) findViewById(R.id.setting_cahe);
-		
+
 		mClose.setOnClickListener(this);
 		mRemoveCach.setOnClickListener(this);
 		mAdvice.setOnClickListener(this);
 		mNewEdition.setOnClickListener(this);
 		mAbout.setOnClickListener(this);
 		mNotice.setOnClickListener(this);
-		
-		mCach.setText(getTotalSizeOfFilesInDir(new File(cahePath))/1000000+"M");
-		
-		
+
+		mCach.setText(getTotalSizeOfFilesInDir(new File(cahePath)) / 1000000
+				+ "M");
+
 		mProDialog = new ProgressDialog(this);
 		mProDialog.setCancelable(false);
 		mProDialog.setTitle("请稍后，正在清除缓存");
 
-
 	}
-
-
 
 	@SuppressLint("ShowToast")
 	@Override
@@ -94,65 +87,64 @@ public class SettingActivity extends Activity implements OnClickListener{
 		case R.id.setting_tongzhi_checkbox:
 			Toast.makeText(this, "实时通知功能待加入哈..", 1).show();
 			break;
-				
+
 		default:
 			break;
 		}
 	}
+
 	/**
 	 * 用于删除缓存
 	 */
-	private void deleteCahe(){
-		new AlertDialog.Builder(this).setTitle("删除提示框").setMessage("确认清除缓存(主要是签到时的照片)")
-		.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-			
-			@SuppressLint("ShowToast")
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				mProDialog.show();
-				deleteFile(new File(cahePath));
-				mProDialog.dismiss();
-				mCach.setText(getTotalSizeOfFilesInDir(new File(cahePath))/1000000+"M");
-			}
-		}).setNegativeButton("取消", null).show();
+	private void deleteCahe() {
+		new AlertDialog.Builder(this).setTitle("删除提示框")
+				.setMessage("确认清除缓存(主要是签到时的照片)")
+				.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+
+					@SuppressLint("ShowToast")
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						mProDialog.show();
+						deleteFile(new File(cahePath));
+						mProDialog.dismiss();
+						mCach.setText(getTotalSizeOfFilesInDir(new File(
+								cahePath)) / 1000000 + "M");
+					}
+				}).setNegativeButton("取消", null).show();
 	}
-	
+
 	/**
 	 * 获得缓存目录文件大小
+	 * 
 	 * @param file
 	 * @return
 	 */
-	private long getTotalSizeOfFilesInDir(final File file){
-		if(file.isFile()){
+	private long getTotalSizeOfFilesInDir(final File file) {
+		if (file.isFile()) {
 			return file.length();
 		}
-		
+
 		final File[] children = file.listFiles();
 		long total = 0;
-		if(children != null){
-			for(final File child : children){
+		if (children != null) {
+			for (final File child : children) {
 				total += getTotalSizeOfFilesInDir(child);
 			}
 		}
 		return total;
 	}
-	
-	private void deleteFile(final File file){
-		if(file.isFile()){
+
+	private void deleteFile(final File file) {
+		if (file.isFile()) {
 			file.delete();
-			return ;
+			return;
 		}
 		final File[] children = file.listFiles();
-		if(children != null){
-			for(final File child : children){
+		if (children != null) {
+			for (final File child : children) {
 				deleteFile(child);
 			}
 		}
 	}
-	
-	
+
 }
-
-
-
-

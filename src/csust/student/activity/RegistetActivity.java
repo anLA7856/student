@@ -100,27 +100,26 @@ public class RegistetActivity extends Activity implements OnClickListener {
 				.createUtility(this, "appid=" + getString(R.string.app_id));
 		mToast = Toast.makeText(this, "", Toast.LENGTH_SHORT);
 		initView();
-		
-		
-		//暂时有不知名bug，总是在删除模型时候报引擎失败！先不用。
-//		// 初始化科大讯飞引擎
-//		// 身份验证对象初始化
-//		mIdVerifier = IdentityVerifier.createVerifier(this, new InitListener() {
-//
-//			@Override
-//			public void onInit(int errorCode) {
-//				if (ErrorCode.SUCCESS == errorCode) {
-//					Toast.makeText(RegistetActivity.this, "引擎初始化成功", 1).show();
-//					showTip("引擎初始化成功");
-//				} else {
-//					showTip("引擎初始化失败，错误码：" + errorCode);
-//				}
-//			}
-//		});
+
+		// 暂时有不知名bug，总是在删除模型时候报引擎失败！先不用。
+		// // 初始化科大讯飞引擎
+		// // 身份验证对象初始化
+		// mIdVerifier = IdentityVerifier.createVerifier(this, new
+		// InitListener() {
+		//
+		// @Override
+		// public void onInit(int errorCode) {
+		// if (ErrorCode.SUCCESS == errorCode) {
+		// Toast.makeText(RegistetActivity.this, "引擎初始化成功", 1).show();
+		// showTip("引擎初始化成功");
+		// } else {
+		// showTip("引擎初始化失败，错误码：" + errorCode);
+		// }
+		// }
+		// });
 	}
 
 	private void initView() {
-
 
 		mClose = (ImageView) findViewById(R.id.RegiRegisterClose);
 		mName = (EditText) findViewById(R.id.RegiMyName);
@@ -163,7 +162,6 @@ public class RegistetActivity extends Activity implements OnClickListener {
 				if (null != mFaceRequest) {
 					mFaceRequest.cancel();
 				}
-
 
 			}
 		});
@@ -382,17 +380,17 @@ public class RegistetActivity extends Activity implements OnClickListener {
 					Toast.makeText(RegistetActivity.this, "用户名已存在,请重新注册", 1)
 							.show();
 
-					//有bug，先暂时不实现。
+					// 有bug，先暂时不实现。
 					// 此时能走到这一步，说明人脸注册成功，但是用户名却没有成功，所以需要把人脸模型删除。
-//					executeModelCommand("delete");
+					// executeModelCommand("delete");
 					return;
 				} else {
 					mName.setText("");
 					mPassword.setText("");
 					Toast.makeText(RegistetActivity.this, "服务器原因注册失败", 1)
 							.show();
-					//先暂时不实现
-//					executeModelCommand("delete");
+					// 先暂时不实现
+					// executeModelCommand("delete");
 					return;
 				}
 
@@ -526,59 +524,60 @@ public class RegistetActivity extends Activity implements OnClickListener {
 		super.onConfigurationChanged(newConfig);
 	}
 
-//	/**
-//	 * 用于删除模型的操作。
-//	 * 
-//	 * @param cmd
-//	 */
-//	private void executeModelCommand(String cmd) {
-//		// 设置人脸模型操作参数
-//		// 清空参数
-//		mIdVerifier.setParameter(SpeechConstant.PARAMS, null);
-//		// 设置特征场景，用来说明本次验证将涉及的业务
-//		mIdVerifier.setParameter(SpeechConstant.MFV_SCENES, "ifr");
-//		// 用户的唯一标识，在人脸业务获取注册、验证和删除模型时都要填写，不能为空
-//		mIdVerifier.setParameter(SpeechConstant.AUTH_ID, username);
-//
-//		// 设置模型参数，若无可以传空字符传
-//		StringBuffer params = new StringBuffer();
-//		// 执行模型操作
-//		mIdVerifier.execute("ifr", cmd, params.toString(),
-//				new IdentityListener() {
-//
-//					@Override
-//					public void onResult(IdentityResult result, boolean islast) {
-//						JSONObject jsonResult = null;
-//						int ret = ErrorCode.SUCCESS;
-//						try {
-//							jsonResult = new JSONObject(result
-//									.getResultString());
-//							ret = jsonResult.getInt("ret");
-//						} catch (JSONException e) {
-//							e.printStackTrace();
-//						}
-//						// 根据操作类型判断结果类型
-//						if (ErrorCode.SUCCESS == ret) {
-//							showTip("未注册成功，人脸删除成功");
-//						} else {
-//							showTip("未注册成功，人脸删除失败");
-//						}
-//					}
-//
-//					@Override
-//					public void onEvent(int eventType, int arg1, int arg2,
-//							Bundle obj) {
-//
-//					}
-//
-//					@SuppressLint("ShowToast")
-//					@Override
-//					public void onError(SpeechError error) {
-//						// 弹出错误信息
-//						Toast.makeText(RegistetActivity.this,error.getPlainDescription(true) , 1).show();
-//					
-//					}
-//				});
-//	}
+	// /**
+	// * 用于删除模型的操作。
+	// *
+	// * @param cmd
+	// */
+	// private void executeModelCommand(String cmd) {
+	// // 设置人脸模型操作参数
+	// // 清空参数
+	// mIdVerifier.setParameter(SpeechConstant.PARAMS, null);
+	// // 设置特征场景，用来说明本次验证将涉及的业务
+	// mIdVerifier.setParameter(SpeechConstant.MFV_SCENES, "ifr");
+	// // 用户的唯一标识，在人脸业务获取注册、验证和删除模型时都要填写，不能为空
+	// mIdVerifier.setParameter(SpeechConstant.AUTH_ID, username);
+	//
+	// // 设置模型参数，若无可以传空字符传
+	// StringBuffer params = new StringBuffer();
+	// // 执行模型操作
+	// mIdVerifier.execute("ifr", cmd, params.toString(),
+	// new IdentityListener() {
+	//
+	// @Override
+	// public void onResult(IdentityResult result, boolean islast) {
+	// JSONObject jsonResult = null;
+	// int ret = ErrorCode.SUCCESS;
+	// try {
+	// jsonResult = new JSONObject(result
+	// .getResultString());
+	// ret = jsonResult.getInt("ret");
+	// } catch (JSONException e) {
+	// e.printStackTrace();
+	// }
+	// // 根据操作类型判断结果类型
+	// if (ErrorCode.SUCCESS == ret) {
+	// showTip("未注册成功，人脸删除成功");
+	// } else {
+	// showTip("未注册成功，人脸删除失败");
+	// }
+	// }
+	//
+	// @Override
+	// public void onEvent(int eventType, int arg1, int arg2,
+	// Bundle obj) {
+	//
+	// }
+	//
+	// @SuppressLint("ShowToast")
+	// @Override
+	// public void onError(SpeechError error) {
+	// // 弹出错误信息
+	// Toast.makeText(RegistetActivity.this,error.getPlainDescription(true) ,
+	// 1).show();
+	//
+	// }
+	// });
+	// }
 
 }

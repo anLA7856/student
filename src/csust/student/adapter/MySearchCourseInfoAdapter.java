@@ -19,7 +19,7 @@ import csust.student.utils.LoadImg.ImageDownloadCallBack;
 /**
  * 添加课程的courseinfo的adapter
  * 
- * @author U-anLA
+ * @author anLA7856
  *
  */
 public class MySearchCourseInfoAdapter extends BaseAdapter {

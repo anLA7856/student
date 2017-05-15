@@ -79,12 +79,11 @@ public class SignActivity extends Activity implements OnClickListener {
 	private String wifiMac = null;
 	// 用于接收前一个页面的signinfo
 	private SignInfo signInfo = null;
-	
-	//用于存储扫描到的wifilist列表，防止缓存
+
+	// 用于存储扫描到的wifilist列表，防止缓存
 	List<String> macList = null;
-	
-	
-	//用来上传签到成功结果的url
+
+	// 用来上传签到成功结果的url
 	private String url = null;
 
 	@Override
@@ -126,10 +125,11 @@ public class SignActivity extends Activity implements OnClickListener {
 		signInfo = (SignInfo) bundle.getSerializable("courseInfo");
 		// SignInfo signInfo = (SignInfo) map.get("courseInfo");
 		if (signInfo != null) {
-			mClassName.setText("课程名称："+signInfo.getSign_courseName().toString());
+			mClassName.setText("课程名称："
+					+ signInfo.getSign_courseName().toString());
 			wifiMac = signInfo.getTeacher_wifimac().toString();
 		}
-		
+
 		mToast = Toast.makeText(this, "", Toast.LENGTH_SHORT);
 	}
 
@@ -144,12 +144,18 @@ public class SignActivity extends Activity implements OnClickListener {
 			if ("success".equals(obj.get("rst"))) {
 				if (obj.getBoolean("verf")) {
 					Date now = new Date();
-					String date = (now.getYear()+1900)+"-"+now.getMonth()+"-"+now.getDay();
-					String time = now.getHours()+":"+now.getMinutes()+":00";
+					String date = (now.getYear() + 1900) + "-" + now.getMonth()
+							+ "-" + now.getDay();
+					String time = now.getHours() + ":" + now.getMinutes()
+							+ ":00";
 					// 签到成功了，这里就需要给数据库插入了。
-					url = Model.UPLOADSIGNINFO + "student_id=" + Model.MYUSERINFO.getStudent_id()+"&course_id="+signInfo.getSign_courseNum()+"&date="+date+"&time="+time+"&allow_id="+signInfo.getAlow_sign_id();
+					url = Model.UPLOADSIGNINFO + "student_id="
+							+ Model.MYUSERINFO.getStudent_id() + "&course_id="
+							+ signInfo.getSign_courseNum() + "&date=" + date
+							+ "&time=" + time + "&allow_id="
+							+ signInfo.getAlow_sign_id();
 					ThreadPoolUtils.execute(new HttpGetThread(hand, url));
-					//showTip("签到成功");
+					// showTip("签到成功");
 					finish();
 				} else {
 					showTip("签到失败");
@@ -160,9 +166,9 @@ public class SignActivity extends Activity implements OnClickListener {
 			e.printStackTrace();
 		}
 	}
-	
-	//用于处理签到成功的handler回调
-	Handler hand = new Handler(){
+
+	// 用于处理签到成功的handler回调
+	Handler hand = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
 			if (msg.what == 404) {
@@ -170,20 +176,16 @@ public class SignActivity extends Activity implements OnClickListener {
 			} else if (msg.what == 100) {
 				Toast.makeText(SignActivity.this, "服务器无响应", 1).show();
 			} else if (msg.what == 200) {
-				//成功的的回调处理逻辑
+				// 成功的的回调处理逻辑
 				String result = msg.obj.toString();
-				if(result.equals("[1]")){
+				if (result.equals("[1]")) {
 					showTip("签到成功！！！");
-				}else{
+				} else {
 					showTip("签到失败！！！");
 				}
 			}
 		}
 	};
-	
-	
-	
-	
 
 	private void showTip(String string) {
 		mToast.setText(string);
@@ -225,7 +227,7 @@ public class SignActivity extends Activity implements OnClickListener {
 			}
 			if (null != mImageData) {
 				// 这里判断下是否在教师端的wifimac地址范围内。
-//				if (wifiIsOk()) {
+				// if (wifiIsOk()) {
 				if (wifiIsOk()) {
 					mProDialog.setMessage("签到中...");
 					mProDialog.show();
@@ -234,10 +236,9 @@ public class SignActivity extends Activity implements OnClickListener {
 					mFaceRequest.setParameter(SpeechConstant.AUTH_ID, mAuthid);
 					mFaceRequest.setParameter(SpeechConstant.WFR_SST, "verify");
 					mFaceRequest.sendRequest(mImageData, mRequestListener);
-				}else{
+				} else {
 					showTip("请确定在范围内！！！！");
 				}
-
 
 			} else {
 				showTip("请拍照后再验证！");
@@ -259,51 +260,53 @@ public class SignActivity extends Activity implements OnClickListener {
 	 * @return
 	 */
 	private boolean wifiIsOk() {
-		//清楚缓存
-		if(macList != null){
+		// 清楚缓存
+		if (macList != null) {
 			macList.removeAll(macList);
 		}
 		WifiAdmin wifiAdmin = new WifiAdmin(this);
-		//开始扫描一遍
+		// 开始扫描一遍
 		wifiAdmin.startScan();
 
-		
 		// 首先打开wifi
 		wifiAdmin.openWifi();
 		// 获得wifi的list列表
 		List<ScanResult> list = wifiAdmin.getWifiList();
-		
-		
-//		Toast.makeText(SignActivity.this, list+"", 1).show();
-//		
-//		Toast.makeText(SignActivity.this, wifiMac, 1).show();
+
+		// Toast.makeText(SignActivity.this, list+"", 1).show();
+		//
+		// Toast.makeText(SignActivity.this, wifiMac, 1).show();
 		if (list == null) {
 			return false;
 		}
 		macList = new ArrayList<String>(list.size());
 		for (int i = 0; i < list.size(); i++) {
-			String temp = list.get(i).BSSID.substring(3,list.get(i).BSSID.length());
+			String temp = list.get(i).BSSID.substring(3,
+					list.get(i).BSSID.length());
 			macList.add(temp);
-			
+
 		}
-		
+
 		if (wifiMac == null) {
 			return false;
 		}
-		
-//		new AlertDialog.Builder(this).setTitle("提示").setMessage(macList.toString())
-//		.setPositiveButton("确定", null).show();
-//		new AlertDialog.Builder(this).setTitle("提示2").setMessage(wifiMac)
-//		.setPositiveButton("确定", null).show();
-//		
-//		
-		
-		//可能获得的是小写的
+
+		// new
+		// AlertDialog.Builder(this).setTitle("提示").setMessage(macList.toString())
+		// .setPositiveButton("确定", null).show();
+		// new AlertDialog.Builder(this).setTitle("提示2").setMessage(wifiMac)
+		// .setPositiveButton("确定", null).show();
+		//
+		//
+
+		// 可能获得的是小写的
 		String myUpperWifiMac = wifiMac.toLowerCase();
-		String subStringMyUpperWifiMac = myUpperWifiMac.substring(3, myUpperWifiMac.length());
-		String subStringWifiMac = wifiMac.substring(3,wifiMac.length());
-		if (macList.contains(subStringMyUpperWifiMac)||macList.contains(subStringWifiMac)) {
-			
+		String subStringMyUpperWifiMac = myUpperWifiMac.substring(3,
+				myUpperWifiMac.length());
+		String subStringWifiMac = wifiMac.substring(3, wifiMac.length());
+		if (macList.contains(subStringMyUpperWifiMac)
+				|| macList.contains(subStringWifiMac)) {
+
 			return true;
 		} else {
 			return false;

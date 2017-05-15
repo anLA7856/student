@@ -2,37 +2,34 @@ package csust.student.adapter;
 
 import java.util.List;
 
-import csust.student.activity.R;
-import csust.student.adapter.MySearchCourseInfoAdapter.Holder;
-import csust.student.info.SearchCourseInfo;
-import csust.student.info.StudentSignDetail;
-import csust.student.model.Model;
-import csust.student.utils.LoadImg;
-import csust.student.utils.LoadImg.ImageDownloadCallBack;
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import csust.student.activity.R;
+import csust.student.info.StudentSignDetail;
+import csust.student.model.Model;
+import csust.student.utils.LoadImg;
 
 /**
  * 每位同学的每一门课程的所有不同的签到几率的adapter
- * @author U-anLA
+ * 
+ * @author anLA7856
  *
  */
-public class MySignDetailItemAdapter extends BaseAdapter{
+public class MySignDetailItemAdapter extends BaseAdapter {
 
 	private List<StudentSignDetail> list;
 	private Context ctx;
 	private LoadImg loadImgHeadImg;
-	//获得coursename和studentname
-	private String courseName,studentName;
-	
+	// 获得coursename和studentname
+	private String courseName, studentName;
 
-	public MySignDetailItemAdapter(Context ctx, List<StudentSignDetail> list,String courseName,String studentName) {
+	public MySignDetailItemAdapter(Context ctx, List<StudentSignDetail> list,
+			String courseName, String studentName) {
 		this.list = list;
 		this.ctx = ctx;
 		// 加载图像
@@ -104,34 +101,34 @@ public class MySignDetailItemAdapter extends BaseAdapter{
 			hold.myPic.setImageResource(R.drawable.default_users_avatar);
 		} else {
 			hold.myPic.setImageResource(R.drawable.default_users_avatar);
-//			hold.myPic.setTag(Model.USERHEADURL
-//					+ list.get(position).getSign_date());
-//			Bitmap bitTeacher = loadImgHeadImg.loadImage(hold.myPic,
-//					Model.USERHEADURL + list.get(position).getSign_date(),
-//					new ImageDownloadCallBack() {
-//						@Override
-//						public void onImageDownload(ImageView imageView,
-//								Bitmap bitmap) {
-//							if (position >= list.size()) {
-//								if (hold.myPic.getTag().equals(
-//										Model.USERHEADURL
-//												+ list.get(position - 1)
-//														.getSign_date())) {
-//									hold.myPic.setImageBitmap(bitmap);
-//								}
-//							} else {
-//								if (hold.myPic.getTag().equals(
-//										Model.USERHEADURL
-//												+ list.get(position)
-//														.getSign_date())) {
-//									hold.myPic.setImageBitmap(bitmap);
-//								}
-//							}
-//						}
-//					});
-//			if (bitTeacher != null) {
-//				hold.myPic.setImageBitmap(bitTeacher);
-//			}
+			// hold.myPic.setTag(Model.USERHEADURL
+			// + list.get(position).getSign_date());
+			// Bitmap bitTeacher = loadImgHeadImg.loadImage(hold.myPic,
+			// Model.USERHEADURL + list.get(position).getSign_date(),
+			// new ImageDownloadCallBack() {
+			// @Override
+			// public void onImageDownload(ImageView imageView,
+			// Bitmap bitmap) {
+			// if (position >= list.size()) {
+			// if (hold.myPic.getTag().equals(
+			// Model.USERHEADURL
+			// + list.get(position - 1)
+			// .getSign_date())) {
+			// hold.myPic.setImageBitmap(bitmap);
+			// }
+			// } else {
+			// if (hold.myPic.getTag().equals(
+			// Model.USERHEADURL
+			// + list.get(position)
+			// .getSign_date())) {
+			// hold.myPic.setImageBitmap(bitmap);
+			// }
+			// }
+			// }
+			// });
+			// if (bitTeacher != null) {
+			// hold.myPic.setImageBitmap(bitTeacher);
+			// }
 		}
 
 		return convertView;
